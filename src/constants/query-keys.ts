@@ -1,0 +1,4 @@
+export const QueryKeys = {
+  USER_INFO: "USER_INFO",
+  SOCIAL_LOGIN: "SOCIAL_LOGIN",
+};
