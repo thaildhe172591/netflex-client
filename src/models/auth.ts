@@ -33,6 +33,7 @@ export interface ResetPasswordPayload {
 
 export interface UserInfo {
   email: string;
+  confirmed: boolean;
   roles: string[];
   permission: string[];
 }

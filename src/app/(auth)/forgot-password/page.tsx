@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
           Remember your password?{" "}
           <Link
             href="/login"
-            className="underline underline-offset-4 text-white"
+            className="underline underline-offset-4 text-primary"
           >
             Sign in
           </Link>

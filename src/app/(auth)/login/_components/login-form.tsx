@@ -127,7 +127,7 @@ export function LoginForm({
                   <FormLabel>Password</FormLabel>
                   <Link
                     href="/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 text-muted-foreground hover:underline hover:text-white transition-colors"
+                    className="ml-auto inline-block text-sm underline-offset-4 text-muted-foreground hover:underline hover:text-primary transition-colors"
                   >
                     Forgot your password?
                   </Link>
@@ -166,7 +166,7 @@ export function LoginForm({
         Don&apos;t have an account?{" "}
         <Link
           href="/register"
-          className="underline underline-offset-4 text-white"
+          className="underline underline-offset-4 text-primary"
         >
           Sign up
         </Link>

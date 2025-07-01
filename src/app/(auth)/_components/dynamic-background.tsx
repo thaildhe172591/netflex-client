@@ -27,19 +27,7 @@ export function DynamicBackground() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.max(canvas.width, canvas.height) / 2
-      );
-      gradient.addColorStop(0, "#111111");
-      gradient.addColorStop(0.4, "#1a1a1a");
-      gradient.addColorStop(0.8, "#0a0a0a");
-      gradient.addColorStop(1, "#000000");
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = "#1a1a1a";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       particles.length = 0;
@@ -57,20 +45,7 @@ export function DynamicBackground() {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.max(canvas.width, canvas.height) / 2
-      );
-      gradient.addColorStop(0, "#111111");
-      gradient.addColorStop(0.4, "#1a1a1a");
-      gradient.addColorStop(0.8, "#0a0a0a");
-      gradient.addColorStop(1, "#000000");
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = "#1a1a1a";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((particle) => {

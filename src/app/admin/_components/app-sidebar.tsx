@@ -2,13 +2,16 @@
 
 import * as React from "react";
 import {
-  BookOpen,
-  Frame,
-  Gauge,
-  Map,
-  PieChart,
-  Settings2,
-  UsersRound,
+  BarChart3,
+  Bell,
+  BookUser,
+  Film,
+  Hash,
+  Home,
+  MessageSquare,
+  Monitor,
+  Tags,
+  Users,
 } from "lucide-react";
 
 import {
@@ -21,8 +24,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavMain } from "./nav-main";
-import { NavProjects } from "./nav-projects";
+import { NavItems } from "./nav-items";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -34,44 +36,59 @@ const data = {
     email: "bacnxhe172646@fpt.edu.vn",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
+  navHome: [
     {
       title: "Dashboard",
-      url: "#",
-      icon: Gauge,
+      url: "/admin",
+      icon: Home,
       isActive: true,
     },
     {
       title: "TV Series",
-      url: "#",
-      icon: Settings2,
-    },
-    {
-      title: "User",
-      url: "#",
-      icon: UsersRound,
+      url: "/admin/series",
+      icon: Monitor,
     },
     {
       title: "Movies",
-      url: "#",
-      icon: BookOpen,
-    }
+      url: "/admin/movies",
+      icon: Film,
+    },
+    {
+      title: "Actors",
+      url: "/admin/actors",
+      icon: Users,
+    },
+    {
+      title: "Genres",
+      url: "/admin/genres",
+      icon: Tags,
+    },
+    {
+      title: "Keywords",
+      url: "/admin/keywords",
+      icon: Hash,
+    },
   ],
-  projects: [
+  navUser: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      title: "Users",
+      url: "/admin/users",
+      icon: BookUser,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      title: "Review",
+      url: "/admin/review",
+      icon: MessageSquare,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      title: "Report",
+      url: "/admin/report",
+      icon: BarChart3,
+    },
+    {
+      title: "Notification",
+      url: "/admin/notification",
+      icon: Bell,
     },
   ],
 };
@@ -85,7 +102,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton asChild>
               <Link href="/admin">
                 <Icons.logo className="!size-4" />
-                <span className="text-sm font-bold">NETFLEX</span>
+                <span className="text-sm font-semibold">NETFLEX</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -93,8 +110,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="h-full">
-          <NavMain items={data.navMain} />
-          <NavProjects projects={data.projects} />
+          <NavItems label="Content" items={data.navHome} />
+          <NavItems label="System" items={data.navUser} />
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>

@@ -1,3 +1,3 @@
-export default function ReportManagementPage() {
+export default function ReportPage() {
   return <></>;
 }

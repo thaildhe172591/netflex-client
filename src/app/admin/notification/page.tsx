@@ -1,3 +1,3 @@
-export default function NotificationManagementPage() {
+export default function NotificationPage() {
   return <></>;
 }

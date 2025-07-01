@@ -3,32 +3,31 @@
 import { useAuth } from "@/hooks";
 import { useEffect } from "react";
 import { forbidden, redirect } from "next/navigation";
-import axios from "axios";
 import { Icons } from "./icon";
 
 export interface AuthProps {
   children: React.ReactNode;
-  roles?: string[];
+  roles?: Readonly<string[]>;
   permissions?: string[];
 }
 
 export const Auth = ({ children, roles, permissions }: AuthProps) => {
-  const { data: info, error, isFetched } = useAuth();
+  const { data: info, error, isFetchedAfterMount } = useAuth();
 
   useEffect(() => {
-    if (!isFetched) return;
+    if (!isFetchedAfterMount) return;
     const callback = encodeURIComponent(
       `${window.location.pathname}${window.location.search}`
     );
-    if (axios.isAxiosError(error) && error.response?.status === 302) {
-      redirect(`${error.response.data.target}&callback=${callback}`);
-    }
     if (!info?.email && error) {
       redirect(
         `/login?callback=${callback}&error=${encodeURIComponent(
           "Please log in to access this page"
         )}`
       );
+    }
+    if (info?.email && info?.confirmed === false) {
+      redirect(`/confirm-email?email=${info.email}&callback=${callback}`);
     }
     if (!info?.email) return;
     const hasRole = roles?.length
@@ -40,7 +39,7 @@ export const Auth = ({ children, roles, permissions }: AuthProps) => {
     if (!hasRole || !hasPermission) {
       forbidden();
     }
-  }, [info, error, isFetched, roles, permissions]);
+  }, [info, error, isFetchedAfterMount, roles, permissions]);
 
   if (!info?.email)
     return (

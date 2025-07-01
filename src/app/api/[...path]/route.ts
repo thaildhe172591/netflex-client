@@ -26,17 +26,7 @@ async function proxyRequest(req: Request) {
         : undefined,
   });
 
-  try {
-    const { title, detail } = await res.clone().json();
-    return res.status === 403 && title === "EmailNotVerifiedException"
-      ? Response.json(
-          { target: `/confirm-email?email=${encodeURIComponent(detail)}` },
-          { status: 302 }
-        )
-      : res;
-  } catch {
-    return res;
-  }
+  return res;
 }
 
 export const GET = proxyRequest;

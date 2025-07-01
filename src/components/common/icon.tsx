@@ -26,29 +26,19 @@ export const Icons = {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-      width="512"
-      height="512"
-      x="0"
-      y="0"
-      viewBox="0 0 64 64"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <g>
-        <g data-name="01 Netflix">
-          <path
-            fill="#fa3d63"
-            d="M52 2a2 2 0 0 0-2-2H38a2 2 0 0 0-2 2v19.615l15.857 39.642a1.992 1.992 0 0 1 .13.884c0-.047.013-.093.013-.141zM12.013 1.859c0 .047-.013.093-.013.141v60a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V42.385L12.143 2.743a1.992 1.992 0 0 1-.13-.884z"
-            opacity="1"
-            data-original="#fa3d63"
-          ></path>
-          <path
-            fill="#c20a19"
-            d="m51.857 61.257-24-60A2 2 0 0 0 26 0H14a2 2 0 0 0-1.857 2.743l24 60A2 2 0 0 0 38 64h12a2 2 0 0 0 1.857-2.743z"
-            opacity="1"
-            data-original="#c20a19"
-          ></path>
-        </g>
-      </g>
+      <path d="M21.66 17.67a1.08 1.08 0 0 1-.04 1.6A12 12 0 0 1 4.73 2.38a1.1 1.1 0 0 1 1.61-.04z" />
+      <path d="M19.65 15.66A8 8 0 0 1 8.35 4.34" />
+      <path d="m14 10-5.5 5.5" />
+      <path d="M14 17.85V10H6.15" />
     </svg>
   ),
 };

@@ -172,7 +172,7 @@ export default function ResetPasswordPage() {
                   "hover:underline transition-colors",
                   countdown > 0 || isSubmitting || isResending
                     ? "text-gray-400 cursor-not-allowed"
-                    : "text-white cursor-pointer"
+                    : "text-primary cursor-pointer"
                 )}
                 disabled={countdown > 0 || isSubmitting || isResending}
               >
@@ -286,7 +286,7 @@ export default function ResetPasswordPage() {
           Back to{" "}
           <Link
             href="/login"
-            className="underline underline-offset-4 text-white"
+            className="underline underline-offset-4 text-primary"
           >
             Sign In
           </Link>

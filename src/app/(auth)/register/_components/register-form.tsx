@@ -164,9 +164,12 @@ export function RegisterForm({ className, onSuccess, ...props }: IProps) {
         Continue with Google
       </Button>
 
-      <div className="text-center text-sm">
+      <div className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <Link href="/login" className="underline underline-offset-4">
+        <Link
+          href="/login"
+          className="underline underline-offset-4 text-primary"
+        >
           Sign in
         </Link>
       </div>
