@@ -109,7 +109,7 @@ export default function ForgotPasswordPage() {
         <div className="text-center text-sm text-muted-foreground">
           Remember your password?{" "}
           <Link
-            href="/login"
+            href="/login?_modal=0"
             className="underline underline-offset-4 text-primary"
           >
             Sign in

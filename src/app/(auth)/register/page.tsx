@@ -26,7 +26,9 @@ export default function RegisterPage() {
           <RegisterForm
             onSuccess={(data) => {
               if (typeof data === "string") {
-                router.push(`/login?email=${encodeURIComponent(data)}`);
+                router.push(
+                  `/login?email=${encodeURIComponent(data)}&_modal=0`
+                );
               }
             }}
           />

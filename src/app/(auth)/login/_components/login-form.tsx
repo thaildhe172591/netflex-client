@@ -165,7 +165,7 @@ export function LoginForm({
       <div className="text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link
-          href="/register"
+          href="/register?_modal=0"
           className="underline underline-offset-4 text-primary"
         >
           Sign up

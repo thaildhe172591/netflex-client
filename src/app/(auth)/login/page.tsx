@@ -30,7 +30,7 @@ export default function LoginPage() {
           <LoginForm
             email={email}
             err={error}
-            onSuccess={() => callback && router.push(callback)}
+            onSuccess={() => callback && router.push(`${callback}?_modal=0`)}
           />
         </CardContent>
       </Card>

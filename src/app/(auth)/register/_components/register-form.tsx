@@ -167,7 +167,7 @@ export function RegisterForm({ className, onSuccess, ...props }: IProps) {
       <div className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href="/login?_modal=0"
           className="underline underline-offset-4 text-primary"
         >
           Sign in

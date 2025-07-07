@@ -285,7 +285,7 @@ export default function ResetPasswordPage() {
         <div className="text-center text-sm text-muted-foreground">
           Back to{" "}
           <Link
-            href="/login"
+            href="/login?_modal=0"
             className="underline underline-offset-4 text-primary"
           >
             Sign In

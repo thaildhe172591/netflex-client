@@ -21,7 +21,9 @@ export default function CallbackSocialPage({ params }: IProps) {
   useEffect(() => {
     async function handleCallback() {
       if (!code || !provider) {
-        router.push(`/signin?error=${encodeURIComponent("Invalid request")}`);
+        router.push(
+          `/login?error=${encodeURIComponent("Invalid request")}&_modal=0`
+        );
         return;
       }
 
@@ -36,11 +38,10 @@ export default function CallbackSocialPage({ params }: IProps) {
         await callbackLoginSocial(payload);
         router.push("/");
       } catch {
-        router.push(
-          `/signin?error=${encodeURIComponent(
-            `${provider.toUpperCase()} login failed.`
-          )}`
+        const error = encodeURIComponent(
+          `${provider.toUpperCase()} login failed.`
         );
+        router.push(`/login?error=${error}&_modal=0`);
       }
     }
 

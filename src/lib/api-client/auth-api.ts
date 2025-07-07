@@ -10,7 +10,6 @@ import {
 import axiosClient from "./axios-client";
 
 export const authApi = {
-  //POST
   signin: (payload: LoginPayload) => axiosClient.post("/auth/signin", payload),
   logout: (payload: LogoutPayload) => axiosClient.post("/auth/logout", payload),
   confirmEmail: (payload: ConfirmEmailPayload) =>
@@ -20,15 +19,14 @@ export const authApi = {
   sendOTP: (email: string) => axiosClient.post("/auth/otp", { email }),
   resetPassword: (payload: ResetPasswordPayload) =>
     axiosClient.post("/auth/reset-password", payload),
-  //GET
   loginSocial: (provider: string) =>
     axiosClient.get(
       `/auth/${provider}?redirectUrl=${window.location.origin}/${provider}/callback`
     ),
   verifyOTP: (payload: VerifyOTPPayload) =>
     axiosClient.get(`/auth/otp?email=${payload.email}&otp=${payload.otp}`),
-  getInfo: async (): Promise<UserInfo> => {
-    const response = await axiosClient.get("/auth/me");
+  getInfo: async () => {
+    const response = await axiosClient.get<UserInfo>("/auth/me");
     return response.data;
   },
 };

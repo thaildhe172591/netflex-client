@@ -27,11 +27,13 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.515.0",
     "next": "15.3.3",
+    "object-to-formdata": "^4.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0",
+    "vaul": "^1.1.2",
     "zod": "^3.25.67",
     "zustand": "^5.0.5"
   },

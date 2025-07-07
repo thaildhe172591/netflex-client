@@ -16,18 +16,25 @@ export const Auth = ({ children, roles, permissions }: AuthProps) => {
 
   useEffect(() => {
     if (!isFetchedAfterMount) return;
-    const callback = encodeURIComponent(
-      `${window.location.pathname}${window.location.search}`
-    );
-    if (!info?.email && error) {
-      redirect(
-        `/login?callback=${callback}&error=${encodeURIComponent(
-          "Please log in to access this page"
-        )}`
-      );
+    const pathname = window.location.pathname;
+    if (!info?.email && pathname !== "/login" && error) {
+      const query = new URLSearchParams({
+        callback: pathname,
+        error: "Please log in to access this page",
+        _modal: "0",
+      });
+      redirect(`/login?${query.toString()}`);
     }
-    if (info?.email && info?.confirmed === false) {
-      redirect(`/confirm-email?email=${info.email}&callback=${callback}`);
+    if (
+      info?.email &&
+      pathname !== "/confirm-email" &&
+      info?.confirmed === false
+    ) {
+      const query = new URLSearchParams({
+        callback: pathname,
+        email: info.email,
+      });
+      redirect(`/confirm-email?${query.toString()}`);
     }
     if (!info?.email) return;
     const hasRole = roles?.length

@@ -31,7 +31,7 @@ export function Modal({
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    if (pathname !== origin || searchName.get("_modal") != "1") return;
+    if (pathname !== origin || searchName.get("_modal") == "0") return;
     setIsOpen(true);
     return () => setIsOpen(false);
   }, [origin, pathname, searchName]);

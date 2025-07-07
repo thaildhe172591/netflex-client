@@ -15,7 +15,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Plus, MoreHorizontal, Edit, Trash2, Eye, Search } from "lucide-react";
+import {
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Eye,
+  Search,
+  CirclePlus,
+  Funnel,
+} from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const movies = [
   {
@@ -23,19 +40,15 @@ const movies = [
     title: "Avatar: The Way of Water",
     genre: "Sci-Fi, Adventure",
     year: 2022,
-    rating: 8.2,
     status: "Published",
-    views: "12.5K",
-    duration: "192 min",
+    duration: "130 min",
   },
   {
     id: 2,
     title: "Top Gun: Maverick",
     genre: "Action, Drama",
     year: 2022,
-    rating: 8.7,
     status: "Published",
-    views: "18.2K",
     duration: "130 min",
   },
   {
@@ -43,9 +56,7 @@ const movies = [
     title: "Black Panther: Wakanda Forever",
     genre: "Action, Adventure",
     year: 2022,
-    rating: 7.9,
-    status: "Draft",
-    views: "9.8K",
+    status: "Coming soon",
     duration: "161 min",
   },
   {
@@ -53,10 +64,8 @@ const movies = [
     title: "The Batman",
     genre: "Action, Crime",
     year: 2022,
-    rating: 8.1,
     status: "Published",
-    views: "15.7K",
-    duration: "176 min",
+    duration: "130 min",
   },
 ];
 
@@ -74,21 +83,23 @@ export default function MoviesPage() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search movies..." className="pl-8" />
         </div>
-        <Button variant="outline">Filter</Button>
-        <Button variant="outline">
-          <Plus className="mr-1 h-4 w-4" />
-          Add Movie
+        <Button variant="outline" className="border-dashed">
+          <Funnel className="mr-0.5 h-4 w-4" />
+          Filter
+        </Button>
+        <Button variant="outline" className="border-dashed">
+          <CirclePlus className="mr-0.5 h-4 w-4" />
+          Create
         </Button>
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Year</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Status</TableHead>
+            <TableRow className=" text-sm">
+              <TableHead className="text-muted-foreground">Title</TableHead>
+              <TableHead className="text-muted-foreground">Year</TableHead>
+              <TableHead className="text-muted-foreground">Duration</TableHead>
+              <TableHead className="text-muted-foreground">Status</TableHead>
               <TableHead className="w-[70px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -98,9 +109,7 @@ export default function MoviesPage() {
                 <TableCell className="font-medium">{movie.title}</TableCell>
                 <TableCell>{movie.year}</TableCell>
                 <TableCell>{movie.duration}</TableCell>
-                <TableCell>
-                  <div className="flex items-center">⭐ {movie.rating}</div>
-                </TableCell>
+
                 <TableCell>
                   <Badge
                     variant={
@@ -139,6 +148,31 @@ export default function MoviesPage() {
           </TableBody>
         </Table>
       </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              2
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </>
   );
 }

@@ -81,7 +81,7 @@ export default function ConfirmEmailPage() {
       setError(null);
       setIsSubmitting(true);
       await confirmEmail({ email: email, otp: data.otp });
-      if (callback) router.push(callback);
+      if (callback) router.push(`${callback}?_modal=0`);
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         setError(err.response?.data?.detail || "An unexpected error occurred.");
@@ -181,7 +181,7 @@ export default function ConfirmEmailPage() {
             <div className="text-center text-sm text-muted-foreground">
               Back to{" "}
               <Link
-                href="/login"
+                href="/login?_modal=0"
                 className="underline underline-offset-4 text-primary"
               >
                 Sign In
