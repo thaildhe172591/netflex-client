@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -18,13 +12,7 @@ interface ModalProps {
   description?: string;
 }
 
-export function Modal({
-  children,
-  className,
-  title,
-  description,
-  origin,
-}: ModalProps) {
+export function Modal({ children, title, description, origin }: ModalProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchName = useSearchParams();
@@ -40,16 +28,15 @@ export function Modal({
     setIsOpen(false);
     router.back();
   };
-
   return (
-    <Dialog defaultOpen={true} open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className={cn("bg-card overflow-y-hidden", className)}>
-        <div>
-          <DialogTitle className="text-base">{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </div>
-        {children}
-      </DialogContent>
-    </Dialog>
+    <ResponsiveDialog
+      isOpen={isOpen}
+      setIsOpen={handleOpenChange}
+      title={title || ""}
+      description={description || ""}
+      className="sm:max-w-sm"
+    >
+      {children}
+    </ResponsiveDialog>
   );
 }

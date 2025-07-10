@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function ResponsiveDialog({
   children,
@@ -24,25 +23,31 @@ export function ResponsiveDialog({
   setIsOpen,
   title,
   description,
+  className,
 }: {
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description?: string;
+  className?: string;
 }) {
   const isMobile = useIsMobile();
   if (!isMobile) {
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
+        <DialogContent
+          className={cn("bg-card overflow-y-hidden gap-6 px-0", className)}
+        >
+          <DialogHeader className="gap-0 px-6">
+            <DialogTitle className="text-base">{title}</DialogTitle>
             {description && (
               <DialogDescription>{description}</DialogDescription>
             )}
           </DialogHeader>
-          {children}
+          <ScrollArea className="max-h-[80vh] px-5">
+            <div className="mx-1">{children}</div>
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     );
@@ -50,17 +55,14 @@ export function ResponsiveDialog({
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerContent>
+      <DrawerContent className="bg-card overflow-y-hidden">
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DrawerHeader>
-        {children}
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
+        <ScrollArea className="px-5 pb-6 overflow-auto">
+          <div className="mx-1">{children}</div>
+        </ScrollArea>
       </DrawerContent>
     </Drawer>
   );
