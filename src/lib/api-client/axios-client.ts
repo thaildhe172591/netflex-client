@@ -2,7 +2,7 @@ import axios from "axios";
 import { getDeviceId } from "@/lib/device";
 
 const axiosClient = axios.create({
-  baseURL: "/api",
+  baseURL: "/api/v1",
   withCredentials: true,
 });
 

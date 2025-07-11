@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 export async function POST(req: Request) {
   try {
     const { email, password, deviceId } = await req.json();
-    const res = await fetch(`${process.env.API_URL}/auth/signin`, {
+    const res = await fetch(`${process.env.API_URL}/api/v1/auth/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
