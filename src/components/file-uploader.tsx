@@ -6,8 +6,8 @@ import { useDropzone } from "react-dropzone";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { HlsVideoPlayer } from "./hls-video-player";
+import Image from "next/image";
 
 interface FileUploaderProps {
   value?: File;
@@ -15,6 +15,7 @@ interface FileUploaderProps {
   type?: "image" | "video" | "file" | "hls";
   allowedExtensions?: string[];
   className?: string;
+  initPreview?: string | null;
 }
 
 export function FileUploader({
@@ -23,8 +24,9 @@ export function FileUploader({
   type = "file",
   allowedExtensions,
   className,
+  initPreview,
 }: FileUploaderProps) {
-  const [preview, setPreview] = React.useState<string | null>(null);
+  const [preview, setPreview] = React.useState<string | null>();
 
   React.useEffect(() => {
     if (value) {
@@ -32,13 +34,14 @@ export function FileUploader({
       setPreview(objectUrl);
       return () => URL.revokeObjectURL(objectUrl);
     }
-    setPreview(null);
-  }, [value]);
+    setPreview(initPreview);
+  }, [value, initPreview]);
 
   const onDrop = React.useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
         onChange(acceptedFiles[0]);
+        console.log(acceptedFiles[0]);
       } else {
         onChange(undefined);
       }
@@ -55,7 +58,7 @@ export function FileUploader({
           return acc;
         }, {} as Record<string, string[]>)
       : type === "image"
-      ? { "image/*": [".jpeg", ".png", ".jpg"] }
+      ? { "image/*": [".jpeg", ".png"] }
       : { "video/*": [".mp4", ".mkv"] },
   });
 
@@ -77,7 +80,7 @@ export function FileUploader({
         className
       )}
     >
-      <input {...getInputProps()} />
+      <input type="file" {...getInputProps()} />
       {preview ? (
         <>
           {type === "image" ? (
@@ -85,8 +88,8 @@ export function FileUploader({
               src={preview}
               alt="Preview"
               className="h-full w-full object-contain"
-              width={200}
-              height={300}
+              width={300}
+              height={200}
             />
           ) : type === "video" ? (
             <video

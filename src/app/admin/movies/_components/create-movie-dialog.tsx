@@ -28,7 +28,6 @@ import { FileUploader } from "@/components/file-uploader";
 import { useCountries } from "@/hooks/use-countries";
 import { useActors } from "@/app/admin/actors/_hooks/use-actor";
 import { useGenres } from "@/app/admin/genres/_hooks/use-genre";
-import { useKeywords } from "@/app/admin/keywords/_hooks/use-keyword";
 import {
   Select,
   SelectContent,
@@ -45,27 +44,26 @@ const formSchema = z.object({
     .optional()
     .refine(
       (file) => !file || file.size <= 5 * 1024 * 1024,
-      `Poster size should be less than 5MB.`
+      `File size should be less than 5MB.`
     ),
   backdrop: z
     .instanceof(File)
     .optional()
     .refine(
       (file) => !file || file.size <= 5 * 1024 * 1024,
-      `Backdrop size should be less than 5MB.`
+      `File size should be less than 5MB.`
     ),
   video: z
     .instanceof(File)
     .optional()
     .refine(
       (file) => !file || file.size <= 100 * 1024 * 1024,
-      `Video size should be less than 100MB.`
+      `File size should be less than 5MB.`
     ),
   countryIso: z.string().optional(),
   runtime: z.number().optional(),
   releaseDate: z.date().optional(),
   actors: z.array(z.number()).optional(),
-  keywords: z.array(z.number()).optional(),
   genres: z.array(z.number()).optional(),
 });
 
@@ -78,7 +76,6 @@ export function CreateMovieDialog() {
   const { data: countries } = useCountries();
   const { data: actorsData } = useActors({});
   const { data: genresData } = useGenres({});
-  const { data: keywordsData } = useKeywords({});
 
   const form = useForm<MovieFormValues>({
     resolver: zodResolver(formSchema),
@@ -89,7 +86,6 @@ export function CreateMovieDialog() {
       runtime: 0,
       releaseDate: undefined,
       actors: [],
-      keywords: [],
       genres: [],
       poster: undefined,
       backdrop: undefined,
@@ -145,7 +141,12 @@ export function CreateMovieDialog() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input id="title" {...field} />
+                    <Input
+                      id="title"
+                      {...field}
+                      placeholder="E.g. Interstellar, Parasite, The Godfather..."
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,7 +161,12 @@ export function CreateMovieDialog() {
                     Overview
                   </FormLabel>
                   <FormControl>
-                    <Textarea id="overview" {...field} />
+                    <Textarea
+                      id="overview"
+                      {...field}
+                      placeholder="A brief synopsis of the movie plot..."
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -235,7 +241,7 @@ export function CreateMovieDialog() {
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger disabled={isPending}>
                             <SelectValue placeholder="Select a country" />
                           </SelectTrigger>
                         </FormControl>
@@ -275,6 +281,7 @@ export function CreateMovieDialog() {
                           }}
                           pattern="[0-9]*"
                           inputMode="numeric"
+                          disabled={isPending}
                         />
                       </FormControl>
                       <FormMessage />
@@ -346,31 +353,14 @@ export function CreateMovieDialog() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="keywords"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Keywords</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      selected={field.value || []}
-                      options={
-                        keywordsData?.data?.map((keyword) => ({
-                          label: keyword.name,
-                          value: keyword.id,
-                        })) || []
-                      }
-                      onSelectedChange={field.onChange}
-                      placeholder="Select keywords"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
               <Button type="submit" disabled={isPending}>
                 {isPending ? "Creating..." : "Create"}
               </Button>

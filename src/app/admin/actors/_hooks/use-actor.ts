@@ -11,12 +11,6 @@ export const useActors = (
 ) =>
   useQuery({
     ...options,
-    queryKey: [
-      QueryKeys.ACTORS,
-      request.pageIndex,
-      request.pageSize,
-      request.search,
-      request.sortBy,
-    ],
+    queryKey: [QueryKeys.ACTORS],
     queryFn: () => actorApi.getAll(request),
   });

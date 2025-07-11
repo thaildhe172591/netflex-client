@@ -11,12 +11,6 @@ export const useGenres = (
 ) =>
   useQuery({
     ...options,
-    queryKey: [
-      QueryKeys.GENRES,
-      request.pageIndex,
-      request.pageSize,
-      request.search,
-      request.sortBy,
-    ],
+    queryKey: [QueryKeys.GENRES],
     queryFn: () => genreApi.getAll(request),
   });

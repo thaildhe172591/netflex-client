@@ -40,9 +40,9 @@ export interface Movie {
   id: number;
   title: string;
   overview?: string;
-  poster?: string;
-  backdrop?: string;
-  video?: string;
+  posterPath?: string;
+  backdropPath?: string;
+  videoUrl?: string;
   countryIso?: string;
   runtime?: number;
   releaseDate?: Date;

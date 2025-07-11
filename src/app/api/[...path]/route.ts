@@ -13,9 +13,8 @@ async function proxyRequest(req: Request) {
   }
 
   const url = new URL(req.url);
-  const target = `${process.env.API_URL}${url.pathname.replace(/\/api/, "")}${
-    url.search
-  }`;
+  const endpoint = url.pathname.replace(/\/api/, "");
+  const target = `${process.env.API_URL}${endpoint}${url.search}`;
 
   const res = await fetch(target, {
     method: req.method,

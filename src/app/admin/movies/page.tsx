@@ -16,7 +16,7 @@ export default function Page() {
       id: movie.id,
       title: movie.title,
       year: movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : 0,
-      status: movie.video ? "Published" : "Coming soon",
+      status: movie.videoUrl ? "Published" : "Coming soon",
       duration: movie.runtime ? `${movie.runtime} min` : "N/A",
     })) || [];
 
