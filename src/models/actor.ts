@@ -25,12 +25,12 @@ export interface UpdateActorPayload {
   biography?: string;
 }
 
-export interface ActorQueryable extends PaginationRequest {
+export interface ActorFilter extends PaginationRequest {
   search?: string;
   sortBy?: string;
 }
 
-export interface ActorQueryable extends PaginationRequest {
+export interface ActorFilter extends PaginationRequest {
   search?: string;
   sortBy?: string;
 }

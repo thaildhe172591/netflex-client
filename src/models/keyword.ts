@@ -9,12 +9,7 @@ export interface Keyword {
   name: string;
 }
 
-export interface KeywordQueryable extends PaginationRequest {
-  search?: string;
-  sortBy?: string;
-}
-
-export interface KeywordQueryable extends PaginationRequest {
+export interface KeywordFilter extends PaginationRequest {
   search?: string;
   sortBy?: string;
 }

@@ -42,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Icons } from "@/components/common";
 
 const formSchema = z.object({
   id: z.number(),
@@ -90,16 +91,19 @@ export function UpdateMovieSheet({
 }: UpdateMovieSheetProps) {
   const queryClient = useQueryClient();
 
-  const { data: movieData, isLoading: isMovieLoading } =
-    useMovieDetail(movieId);
+  const { data: movieData, isLoading: isMovieLoading } = useMovieDetail(
+    movieId,
+    { enabled: !!movieId && isOpen }
+  );
+
   const { data: countries } = useCountries();
-  const { data: actorsData } = useActors({});
-  const { data: genresData } = useGenres({});
+  const { data: actorsData } = useActors({ search: "" });
+  const { data: genresData } = useGenres({ search: "" });
 
   const form = useForm<MovieFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: 0, // Will be set by useEffect
+      id: 0,
       title: "",
       overview: "",
       countryIso: "",
@@ -167,7 +171,9 @@ export function UpdateMovieSheet({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {isMovieLoading ? (
-                <div>Loading movie details...</div>
+                <div className="flex items-center justify-center">
+                  <Icons.spinner className="animate-spin" />
+                </div>
               ) : (
                 <>
                   <FormField
@@ -181,7 +187,6 @@ export function UpdateMovieSheet({
                             id="title"
                             {...field}
                             placeholder="E.g. Interstellar, Parasite, The Godfather..."
-                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -201,7 +206,6 @@ export function UpdateMovieSheet({
                             id="overview"
                             {...field}
                             placeholder="A brief synopsis of the movie plot..."
-                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -221,6 +225,7 @@ export function UpdateMovieSheet({
                             onChange={field.onChange}
                             type="image"
                             initPreview={movieData?.posterPath}
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -240,6 +245,7 @@ export function UpdateMovieSheet({
                             onChange={field.onChange}
                             type="image"
                             initPreview={movieData?.backdropPath}
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -261,6 +267,7 @@ export function UpdateMovieSheet({
                             allowedExtensions={[".M3U8"]}
                             className="h-64 w-full max-w-full aspect-video bg-black flex items-center justify-center overflow-hidden rounded-md"
                             initPreview={movieData?.videoUrl}
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -321,7 +328,6 @@ export function UpdateMovieSheet({
                                 }}
                                 pattern="[0-9]*"
                                 inputMode="numeric"
-                                disabled={isPending}
                               />
                             </FormControl>
                             <FormMessage />
@@ -341,6 +347,7 @@ export function UpdateMovieSheet({
                           <DatePicker
                             date={field.value}
                             setDate={field.onChange}
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -365,6 +372,7 @@ export function UpdateMovieSheet({
                             }
                             onSelectedChange={field.onChange}
                             placeholder="Select actors"
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />
@@ -389,6 +397,7 @@ export function UpdateMovieSheet({
                             }
                             onSelectedChange={field.onChange}
                             placeholder="Select genres"
+                            disabled={isPending}
                           />
                         </FormControl>
                         <FormMessage />

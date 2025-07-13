@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const cookie = await cookies();
 
     const res = await fetch(
-      `${process.env.API_URL}/api/v1/auth/confirm-email`,
+      `${process.env.BASE_API_URL}/api/v1/auth/confirm-email`,
       {
         method: "POST",
         headers: {

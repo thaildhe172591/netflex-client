@@ -9,8 +9,8 @@ export const useMovieDetail = (
   options: MovieDetailQueryOptions = {}
 ) =>
   useQuery({
-    ...options,
     queryKey: [QueryKeys.MOVIES, movieId],
     queryFn: () => movieApi.get(movieId),
     enabled: !!movieId,
+    ...options,
   });

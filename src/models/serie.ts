@@ -42,7 +42,7 @@ export interface UpdateSeriePayload {
   genres?: number[];
 }
 
-export interface SerieQueryable extends PaginationRequest {
+export interface SerieFilter extends PaginationRequest {
   search?: string;
   genres?: number[];
   keywords?: number[];

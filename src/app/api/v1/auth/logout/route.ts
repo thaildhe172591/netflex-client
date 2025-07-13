@@ -7,14 +7,17 @@ export async function POST(req: Request) {
     const { deviceId } = await req.json();
 
     if (accessToken) {
-      const res = await fetch(`${process.env.API_URL}/api/v1/auth/logout`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ deviceId }),
-      });
+      const res = await fetch(
+        `${process.env.BASE_API_URL}/api/v1/auth/logout`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ deviceId }),
+        }
+      );
 
       if (!res.ok) return res;
     }

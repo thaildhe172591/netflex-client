@@ -2,12 +2,12 @@ import {
   CreateMoviePayload,
   Movie,
   MovieDetail,
-  MovieQueryable,
+  MovieFilter,
   UpdateMoviePayload,
 } from "@/models";
 import axiosClient from "./axios-client";
-import { serialize } from "object-to-formdata";
 import { PaginatedResult } from "@/models/pagination";
+import { serialize } from "../serialize-form-data";
 
 export const movieApi = {
   create: (payload: CreateMoviePayload) =>
@@ -20,7 +20,7 @@ export const movieApi = {
     const response = await axiosClient.get<MovieDetail>(`/movies/${movieId}`);
     return response.data;
   },
-  getAll: async (request: MovieQueryable) => {
+  getAll: async (request: MovieFilter) => {
     const params = {
       ...request,
       actors: request.actors?.join(","),

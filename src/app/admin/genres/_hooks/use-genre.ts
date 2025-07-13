@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { genreApi } from "@/lib/api-client/genre-api";
 import { QueryKeys } from "@/constants";
-import { GenreQueryable } from "@/models/genre";
+import { GenreFilter } from "@/models/genre";
 
 type GenreQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
 export const useGenres = (
-  request: GenreQueryable,
+  request: GenreFilter,
   options: GenreQueryOptions = {}
 ) =>
   useQuery({
     ...options,
-    queryKey: [QueryKeys.GENRES],
+    queryKey: [QueryKeys.GENRES, request],
     queryFn: () => genreApi.getAll(request),
   });

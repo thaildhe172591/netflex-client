@@ -8,7 +8,7 @@ export async function POST(
     const { social: provider } = await params;
     const { code, redirectUrl, deviceId } = await req.json();
     const res = await fetch(
-      `${process.env.API_URL}/api/v1/auth/${provider}/callback`,
+      `${process.env.BASE_API_URL}/api/v1/auth/${provider}/callback`,
       {
         method: "POST",
         headers: {

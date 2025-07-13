@@ -16,6 +16,7 @@ interface FileUploaderProps {
   allowedExtensions?: string[];
   className?: string;
   initPreview?: string | null;
+  disabled?: boolean;
 }
 
 export function FileUploader({
@@ -25,6 +26,7 @@ export function FileUploader({
   allowedExtensions,
   className,
   initPreview,
+  disabled,
 }: FileUploaderProps) {
   const [preview, setPreview] = React.useState<string | null>();
 
@@ -52,6 +54,7 @@ export function FileUploader({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
+    disabled,
     accept: allowedExtensions
       ? allowedExtensions.reduce((acc, ext) => {
           acc[`${type || "application"}/${ext.substring(1)}`] = [ext];
@@ -77,10 +80,11 @@ export function FileUploader({
         "relative flex h-32 w-full cursor-pointer items-center justify-center rounded-md",
         "border-2 border-dashed p-4 text-center transition-colors hover:border-foreground",
         isDragActive && "border-blue-500",
+        disabled && "pointer-events-none opacity-50",
         className
       )}
     >
-      <input type="file" {...getInputProps()} />
+      <input type="file" {...getInputProps()} disabled={disabled} />
       {preview ? (
         <>
           {type === "image" ? (
@@ -111,6 +115,7 @@ export function FileUploader({
             size="icon"
             className="absolute right-1 top-1 h-6 w-6 rounded-full"
             onClick={handleRemove}
+            disabled={disabled}
           >
             <XCircle className="h-5 w-5 text-red-500" />
           </Button>

@@ -9,12 +9,7 @@ export interface CreateGenrePayload {
   name: string;
 }
 
-export interface GenreQueryable extends PaginationRequest {
-  search?: string;
-  sortBy?: string;
-}
-
-export interface GenreQueryable extends PaginationRequest {
+export interface GenreFilter extends PaginationRequest {
   search?: string;
   sortBy?: string;
 }

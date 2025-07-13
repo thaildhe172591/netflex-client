@@ -48,7 +48,7 @@ export interface Movie {
   releaseDate?: Date;
 }
 
-export interface MovieQueryable extends PaginationRequest {
+export interface MovieFilter extends PaginationRequest {
   search?: string;
   genres?: number[];
   keywords?: number[];

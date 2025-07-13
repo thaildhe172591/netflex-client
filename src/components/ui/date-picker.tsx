@@ -17,9 +17,10 @@ interface DatePickerProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
-export function DatePicker({ date, setDate, placeholder }: DatePickerProps) {
+export function DatePicker({ date, setDate, placeholder, disabled }: DatePickerProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -29,6 +30,7 @@ export function DatePicker({ date, setDate, placeholder }: DatePickerProps) {
             "w-full justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
+          disabled={disabled}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? (
@@ -44,6 +46,7 @@ export function DatePicker({ date, setDate, placeholder }: DatePickerProps) {
           selected={date}
           onSelect={setDate}
           initialFocus
+          disabled={disabled}
         />
       </PopoverContent>
     </Popover>

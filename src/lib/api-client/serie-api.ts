@@ -3,12 +3,12 @@ import {
   SerieDetail,
   CreateSeriePayload,
   UpdateSeriePayload,
-  SerieQueryable,
+  SerieFilter,
 } from "@/models";
 
 import axiosClient from "./axios-client";
-import { serialize } from "object-to-formdata";
 import { PaginatedResult } from "@/models/pagination";
+import { serialize } from "../serialize-form-data";
 
 export const serieApi = {
   create: (payload: CreateSeriePayload) =>
@@ -25,7 +25,7 @@ export const serieApi = {
     return response.data;
   },
 
-  getAll: async (request: SerieQueryable) => {
+  getAll: async (request: SerieFilter) => {
     const params = {
       ...request,
       genres: request.genres?.join(","),

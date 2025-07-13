@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { keywordApi } from "@/lib/api-client/keyword-api";
 import { QueryKeys } from "@/constants";
-import { KeywordQueryable } from "@/models/keyword";
+import { KeywordFilter } from "@/models/keyword";
 
 type KeywordQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
 export const useKeywords = (
-  request: KeywordQueryable,
+  request: KeywordFilter,
   options: KeywordQueryOptions = {}
 ) =>
   useQuery({

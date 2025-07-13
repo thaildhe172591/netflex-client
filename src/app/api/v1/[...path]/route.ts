@@ -6,7 +6,7 @@ async function proxyRequest(req: Request) {
   const accessToken = cookie.get("access_token")?.value;
 
   const url = new URL(req.url);
-  const target = `${process.env.API_URL}${url.pathname}${url.search}`;
+  const target = `${process.env.BASE_API_URL}${url.pathname}${url.search}`;
 
   return proxyRouteHandler(req, {
     requestUrl: target,

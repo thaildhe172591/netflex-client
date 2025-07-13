@@ -1,15 +1,13 @@
-import { CreateGenrePayload, Genre, GenreQueryable } from "@/models";
+import { CreateGenrePayload, Genre, GenreFilter } from "@/models";
 import axiosClient from "./axios-client";
-import { serialize } from "object-to-formdata";
 import { PaginatedResult } from "@/models/pagination";
 
 export const genreApi = {
-  create: (payload: CreateGenrePayload) =>
-    axiosClient.post("/genres", serialize(payload)),
+  create: (payload: CreateGenrePayload) => axiosClient.post("/genres", payload),
   update: (genreId: string, payload: CreateGenrePayload) =>
-    axiosClient.put(`/genres/${genreId}`, serialize(payload)),
+    axiosClient.put(`/genres/${genreId}`, payload),
   delete: (genreId: string) => axiosClient.delete(`/genres/${genreId}`),
-  getAll: async (request: GenreQueryable) => {
+  getAll: async (request: GenreFilter) => {
     const response = await axiosClient.get<PaginatedResult<Genre>>(`/genres`, {
       params: request,
     });

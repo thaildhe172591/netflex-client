@@ -74,8 +74,9 @@ export function CreateMovieDialog() {
   const [open, setOpen] = useState(false);
 
   const { data: countries } = useCountries();
-  const { data: actorsData } = useActors({});
-  const { data: genresData } = useGenres({});
+
+  const { data: actorsData } = useActors({ search: "" });
+  const { data: genresData } = useGenres({ search: "" });
 
   const form = useForm<MovieFormValues>({
     resolver: zodResolver(formSchema),
@@ -183,6 +184,7 @@ export function CreateMovieDialog() {
                       value={value}
                       onChange={field.onChange}
                       type="image"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -201,6 +203,7 @@ export function CreateMovieDialog() {
                       value={value}
                       onChange={field.onChange}
                       type="image"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -221,6 +224,7 @@ export function CreateMovieDialog() {
                       type="hls"
                       allowedExtensions={[".M3U8"]}
                       className="h-64 w-full max-w-full aspect-video bg-black flex items-center justify-center overflow-hidden rounded-md"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -298,7 +302,11 @@ export function CreateMovieDialog() {
                 <FormItem>
                   <FormLabel>Release Date</FormLabel>
                   <FormControl>
-                    <DatePicker date={field.value} setDate={field.onChange} />
+                    <DatePicker
+                      date={field.value}
+                      setDate={field.onChange}
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -322,6 +330,7 @@ export function CreateMovieDialog() {
                       }
                       onSelectedChange={field.onChange}
                       placeholder="Select actors"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -346,6 +355,7 @@ export function CreateMovieDialog() {
                       }
                       onSelectedChange={field.onChange}
                       placeholder="Select genres"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
