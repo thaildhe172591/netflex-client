@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { actorApi } from "@/lib/api-client/actor-api";
+import { actorApi } from "@/lib/api-client";
+import { Actor, ActorFilter} from "@/models";
 import { QueryKeys } from "@/constants";
-import { ActorFilter } from "@/models/actor";
 
 type ActorQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
@@ -13,4 +13,14 @@ export const useActors = (
     ...options,
     queryKey: [QueryKeys.ACTORS, request],
     queryFn: () => actorApi.getAll(request),
+  });
+
+export const useActorDetail = (
+  actorId: string,
+  options: ActorQueryOptions = {}
+) =>
+  useQuery<Actor, Error>({
+    ...options,
+    queryKey: [QueryKeys.ACTORS, actorId],
+    queryFn: () => actorApi.get(actorId),
   });

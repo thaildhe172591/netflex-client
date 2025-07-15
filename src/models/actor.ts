@@ -1,36 +1,39 @@
-import { PaginationRequest } from "@/models/pagination";
-
-export interface Actor {
+export type Actor = {
   id: number;
   name: string;
-  image?: string;
-  gender?: boolean;
-  birthDate?: Date;
+  gender: boolean;
+  birthDate?: string;
   biography?: string;
-}
+  image?: string;
+};
 
-export interface CreateActorPayload {
+export type CreateActorPayload = {
   name: string;
-  gender?: boolean;
+  gender: boolean;
   image?: File;
   birthDate?: Date;
   biography?: string;
-}
+};
 
-export interface UpdateActorPayload {
+export type ActorFilter = {
+  search?: string;
+  sortBy?: string;
+  pageIndex?: number;
+  pageSize?: number;
+};
+
+export type UpdateActorPayload = {
   name?: string;
   image?: File;
   gender?: boolean;
   birthDate?: Date;
   biography?: string;
-}
+};
 
-export interface ActorFilter extends PaginationRequest {
-  search?: string;
-  sortBy?: string;
-}
-
-export interface ActorFilter extends PaginationRequest {
-  search?: string;
-  sortBy?: string;
-}
+export type GetActorsResponse = {
+  data: Actor[];
+  pageIndex: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+};

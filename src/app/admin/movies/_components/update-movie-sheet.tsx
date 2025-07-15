@@ -97,8 +97,8 @@ export function UpdateMovieSheet({
   );
 
   const { data: countries } = useCountries();
-  const { data: actorsData } = useActors({ search: "" });
-  const { data: genresData } = useGenres({ search: "" });
+  const { data: actorsData } = useActors({ pageIndex: 1, pageSize: 100 });
+  const { data: genresData } = useGenres({ pageIndex: 1, pageSize: 100 });
 
   const form = useForm<MovieFormValues>({
     resolver: zodResolver(formSchema),

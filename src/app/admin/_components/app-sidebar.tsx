@@ -6,9 +6,6 @@ import {
   Bell,
   BookUser,
   Film,
-  Hash,
-  Home,
-  MessageSquare,
   Monitor,
   Tags,
   Users,
@@ -38,20 +35,15 @@ const data = {
   },
   navHome: [
     {
-      title: "Dashboard",
-      url: "/admin",
-      icon: Home,
+      title: "Movies",
+      url: "/admin/movies",
+      icon: Film,
       isActive: true,
     },
     {
       title: "TV Series",
       url: "/admin/series",
       icon: Monitor,
-    },
-    {
-      title: "Movies",
-      url: "/admin/movies",
-      icon: Film,
     },
     {
       title: "Actors",
@@ -63,22 +55,12 @@ const data = {
       url: "/admin/genres",
       icon: Tags,
     },
-    {
-      title: "Keywords",
-      url: "/admin/keywords",
-      icon: Hash,
-    },
   ],
   navUser: [
     {
       title: "Users",
       url: "/admin/users",
       icon: BookUser,
-    },
-    {
-      title: "Review",
-      url: "/admin/review",
-      icon: MessageSquare,
     },
     {
       title: "Report",

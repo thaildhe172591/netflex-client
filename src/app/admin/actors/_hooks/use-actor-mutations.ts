@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { actorApi } from "@/lib/api-client/actor-api";
-import { CreateActorPayload, UpdateActorPayload } from "@/models/actor";
+import { actorApi } from "@/lib/api-client";
+import { CreateActorPayload, UpdateActorPayload } from "@/models";
 import { QueryKeys } from "@/constants";
 
 export const useCreateActor = () =>

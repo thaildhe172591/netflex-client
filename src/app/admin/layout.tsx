@@ -1,3 +1,5 @@
+"use client";
+
 import { Auth } from "@/components/common";
 import {
   SidebarInset,
@@ -15,12 +17,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { usePathname } from "next/navigation";
 
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  const breadcrumbs = pathSegments.map((segment: string, index: number) => {
+    const href = "/" + pathSegments.slice(0, index + 1).join("/");
+    const name =
+      segment === "admin"
+        ? "Dashboard"
+        : segment.charAt(0).toUpperCase() + segment.slice(1);
+    const isLast = index === pathSegments.length - 1;
+
+    return { href, name, isLast };
+  });
+
   return (
     <Auth roles={[Roles.ADMIN, Roles.MODERATOR, Roles.USER]}>
       <div className="min-h-screen">
@@ -36,13 +53,26 @@ export default function Layout({
                 />
                 <Breadcrumb>
                   <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Movies</BreadcrumbPage>
-                    </BreadcrumbItem>
+                    {breadcrumbs.map(
+                      (crumb: {
+                        href: string;
+                        name: string;
+                        isLast: boolean;
+                      }) => (
+                        <BreadcrumbItem key={crumb.name}>
+                          {crumb.isLast ? (
+                            <BreadcrumbPage>{crumb.name}</BreadcrumbPage>
+                          ) : (
+                            <>
+                              <BreadcrumbLink href={crumb.href}>
+                                {crumb.name}
+                              </BreadcrumbLink>
+                              <BreadcrumbSeparator />
+                            </>
+                          )}
+                        </BreadcrumbItem>
+                      )
+                    )}
                   </BreadcrumbList>
                 </Breadcrumb>
               </div>
