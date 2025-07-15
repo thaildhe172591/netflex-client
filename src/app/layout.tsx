@@ -35,7 +35,7 @@ export default function RootLayout(
       <body>
         <Providers>
           <Suspense>{props.modal}</Suspense>
-          {props.children}
+          <Suspense>{props.children}</Suspense>
         </Providers>
       </body>
     </html>
