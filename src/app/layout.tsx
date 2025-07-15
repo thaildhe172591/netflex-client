@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,7 +34,7 @@ export default function RootLayout(
     >
       <body>
         <Providers>
-          {props.modal}
+          <Suspense>{props.modal}</Suspense>
           {props.children}
         </Providers>
       </body>

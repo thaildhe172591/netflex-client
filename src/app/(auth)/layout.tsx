@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { DynamicBackground } from "./_components/dynamic-background";
 
 export default function Layout({
@@ -7,7 +8,7 @@ export default function Layout({
 }>) {
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
-      <DynamicBackground /> {children}
+      <DynamicBackground /> <Suspense>{children}</Suspense>
     </div>
   );
 }

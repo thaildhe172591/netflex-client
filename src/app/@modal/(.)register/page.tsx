@@ -10,7 +10,7 @@ export default function RegisterModal() {
       title="Create your account"
       description="Join us today! Enter your details below to create your new account."
     >
-      <RegisterForm/>
+      <RegisterForm />
     </Modal>
   );
 }
