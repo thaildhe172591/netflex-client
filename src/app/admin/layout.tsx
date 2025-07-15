@@ -59,18 +59,21 @@ export default function Layout({
                         name: string;
                         isLast: boolean;
                       }) => (
-                        <BreadcrumbItem key={crumb.name}>
-                          {crumb.isLast ? (
-                            <BreadcrumbPage>{crumb.name}</BreadcrumbPage>
-                          ) : (
-                            <>
+                        <div
+                          key={crumb.name}
+                          className="flex items-center gap-1.5 sm:gap-2.5"
+                        >
+                          <BreadcrumbItem key={crumb.name}>
+                            {crumb.isLast ? (
+                              <BreadcrumbPage>{crumb.name}</BreadcrumbPage>
+                            ) : (
                               <BreadcrumbLink href={crumb.href}>
                                 {crumb.name}
                               </BreadcrumbLink>
-                              <BreadcrumbSeparator />
-                            </>
-                          )}
-                        </BreadcrumbItem>
+                            )}
+                          </BreadcrumbItem>
+                          {!crumb.isLast && <BreadcrumbSeparator />}
+                        </div>
                       )
                     )}
                   </BreadcrumbList>

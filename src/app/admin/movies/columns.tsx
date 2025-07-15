@@ -13,6 +13,7 @@ import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { UpdateMovieSheet } from "./_components/update-movie-sheet";
 import { DeleteMovieDialog } from "./_components/delete-movie-dialog";
+import Image from "next/image";
 
 export type MovieItem = {
   id: number;
@@ -20,9 +21,26 @@ export type MovieItem = {
   year: number;
   status: "Published" | "Coming soon";
   duration: string;
+  posterUrl: string;
 };
 
 export const columns: ColumnDef<MovieItem>[] = [
+  {
+    accessorKey: "posterUrl",
+    header: () => <div className="hidden lg:table-cell">Poster</div>,
+    cell: ({ row }) => {
+      const item = row.original;
+      return (
+        <Image
+          src={item.posterUrl}
+          alt={item.title}
+          width={75}
+          height={100}
+          className="rounded object-cover h-[100px] w-[75px] hidden lg:table-cell"
+        />
+      );
+    },
+  },
   {
     accessorKey: "title",
     header: "Title",

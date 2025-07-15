@@ -36,6 +36,7 @@ export default function Page() {
       year: movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : 0,
       status: movie.videoUrl ? "Published" : "Coming soon",
       duration: movie.runtime ? `${movie.runtime} min` : "N/A",
+      posterUrl: movie.posterPath || "",
     })) || [];
 
   return (

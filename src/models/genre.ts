@@ -1,15 +1,15 @@
-import { PaginationRequest } from "@/models/pagination";
-
-export interface Genre {
+export type Genre = {
   id: number;
   name: string;
-}
+};
 
-export interface CreateGenrePayload {
+export type CreateGenrePayload = {
   name: string;
-}
+};
 
-export interface GenreFilter extends PaginationRequest {
+export type GenreFilter = {
   search?: string;
   sortBy?: string;
-}
+  pageIndex?: number;
+  pageSize?: number;
+};

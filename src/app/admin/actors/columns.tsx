@@ -12,6 +12,7 @@ import { Edit, Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { UpdateActorSheet } from "./_components/update-actor-sheet";
 import { DeleteActorDialog } from "./_components/delete-actor-dialog";
+import Image from "next/image";
 
 export type ActorItem = {
   id: number;
@@ -23,6 +24,22 @@ export type ActorItem = {
 };
 
 export const columns: ColumnDef<ActorItem>[] = [
+  {
+    accessorKey: "image",
+    header: () => <div className="hidden lg:table-cell">Avatar</div>,
+    cell: ({ row }) => {
+      const item = row.original;
+      return (
+        <Image
+          src={item.image || ""}
+          alt={item.name}
+          width={75}
+          height={100}
+          className="rounded object-cover h-[100px] w-[75px] hidden lg:table-cell"
+        />
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: "Name",
