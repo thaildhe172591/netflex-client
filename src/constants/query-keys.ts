@@ -7,4 +7,7 @@ export const QueryKeys = {
   GENRES: "GENRES",
   KEYWORDS: "KEYWORDS",
   COUNTRIES: "COUNTRIES",
+  SERIES: "SERIES",
+
+  EPISODES: "EPISODES",
 };

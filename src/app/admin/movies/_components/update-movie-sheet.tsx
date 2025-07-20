@@ -128,7 +128,7 @@ export function UpdateMovieSheet({
         releaseDate: movieData.releaseDate
           ? new Date(movieData.releaseDate)
           : undefined,
-        actors: movieData.actors || [],
+        actors: movieData.actors?.map((actor) => actor.id) || [],
         genres: movieData.genres?.map((genre) => genre.id) || [],
         poster: undefined,
         backdrop: undefined,
@@ -285,7 +285,7 @@ export function UpdateMovieSheet({
                             <FormLabel>Country</FormLabel>
                             <Select
                               onValueChange={field.onChange}
-                              value={field.value}
+                              value={field.value || movieData?.countryIso || ""}
                             >
                               <FormControl>
                                 <SelectTrigger disabled={isPending}>

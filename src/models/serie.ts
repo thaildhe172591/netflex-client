@@ -9,8 +9,8 @@ export interface Serie {
   posterPath?: string;
   backdropPath?: string;
   countryIso?: string;
-  firstAirDate?: string;
-  lastAirDate?: string;
+  firstAirDate?: Date;
+  lastAirDate?: Date;
 }
 
 export interface SerieDetail extends Serie {

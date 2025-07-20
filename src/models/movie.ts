@@ -1,3 +1,4 @@
+import { Actor } from "./actor";
 import { Genre } from "./genre";
 import { Keyword } from "./keyword";
 import { PaginationRequest } from "./pagination";
@@ -31,7 +32,7 @@ export interface UpdateMoviePayload {
 }
 
 export interface MovieDetail extends Movie {
-  actors?: number[];
+  actors?: Actor[];
   keywords?: Keyword[];
   genres?: Genre[];
 }
