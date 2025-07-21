@@ -5,3 +5,6 @@ export * from "./genre";
 export * from "./movie";
 export * from "./serie";
 export * from "./actor";
+export * from "./notification";
+export * from "./pagination";
+export * from "./report";
