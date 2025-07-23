@@ -33,6 +33,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { FileUploader } from "@/components/file-uploader";
 import { useActors } from "@/app/admin/actors/_hooks/use-actor";
+import { Icons } from "@/components/common/icon";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -298,7 +299,8 @@ export function UpdateEpisodeSheet({
                       Cancel
                     </Button>
                     <Button type="submit" disabled={isPending}>
-                      {isPending ? "Updating..." : "Update"}
+                      {isPending && <Icons.spinner className="animate-spin" />}
+                      Update
                     </Button>
                   </div>
                 </>

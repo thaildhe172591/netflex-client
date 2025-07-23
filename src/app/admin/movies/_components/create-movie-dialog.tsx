@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Icons } from "@/components/common/icon";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required." }),
@@ -372,7 +373,8 @@ export function CreateMovieDialog() {
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create"}
+                {isPending && <Icons.spinner className="animate-spin" />}
+                Create
               </Button>
             </div>
           </form>

@@ -50,7 +50,7 @@ export const Auth = ({ children, roles, permissions }: AuthProps) => {
 
   if (!info?.email)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <Icons.spinner className="animate-spin" />
       </div>
     );

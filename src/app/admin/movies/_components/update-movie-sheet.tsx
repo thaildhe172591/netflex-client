@@ -414,7 +414,8 @@ export function UpdateMovieSheet({
                       Cancel
                     </Button>
                     <Button type="submit" disabled={isPending}>
-                      {isPending ? "Updating..." : "Update"}
+                      {isPending && <Icons.spinner className="animate-spin" />}
+                      Update
                     </Button>
                   </div>
                 </>

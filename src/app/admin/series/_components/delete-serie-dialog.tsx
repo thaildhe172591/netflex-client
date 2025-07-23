@@ -8,6 +8,7 @@ import { QueryKeys } from "@/constants";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common/icon";
 
 interface DeleteSerieDialogProps {
   serieId: string;
@@ -68,7 +69,8 @@ export function DeleteSerieDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

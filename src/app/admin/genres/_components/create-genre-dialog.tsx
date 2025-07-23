@@ -27,6 +27,7 @@ import { useCreateGenre } from "../_hooks/use-genre-mutations";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants";
+import { Icons } from "@/components/common/icon";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -36,7 +37,7 @@ const formSchema = z.object({
 
 export function CreateGenreDialog() {
   const [isOpen, setIsOpen] = useState(false);
-  const createGenreMutation = useCreateGenre();
+  const { mutate: createGenre, isPending } = useCreateGenre();
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +48,7 @@ export function CreateGenreDialog() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    createGenreMutation.mutate(values, {
+    createGenre(values, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QueryKeys.GENRES] });
         setIsOpen(false);
@@ -90,8 +91,9 @@ export function CreateGenreDialog() {
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={createGenreMutation.isPending}>
-                {createGenreMutation.isPending ? "Creating..." : "Create"}
+              <Button type="submit" disabled={isPending}>
+                {isPending && <Icons.spinner className="animate-spin" />}
+                Create
               </Button>
             </DialogFooter>
           </form>

@@ -37,6 +37,7 @@ import {
 import { useSerieDetail } from "../_hooks/use-serie-detail";
 import { useUpdateSerie } from "../_hooks/use-serie-mutations";
 import { UpdateSeriePayload } from "@/models";
+import { Icons } from "@/components/common/icon";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -351,7 +352,8 @@ export default function SerieDetailPage() {
               {editMode && (
                 <div className="flex justify-end gap-2">
                   <Button type="submit" disabled={isPending}>
-                    {isPending ? "Saving..." : "Save"}
+                    {isPending && <Icons.spinner className="animate-spin" />}
+                    Save
                   </Button>
                 </div>
               )}

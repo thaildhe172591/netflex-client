@@ -30,7 +30,7 @@ export default function RootLayout(
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${roboto_mono.variable} antialiased dark`}
+      className={`${inter.variable} ${roboto_mono.variable} antialiased`}
     >
       <body>
         <Providers>

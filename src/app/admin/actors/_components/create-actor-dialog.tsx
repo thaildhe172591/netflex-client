@@ -31,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Icons } from "@/components/common";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -217,7 +218,8 @@ export function CreateActorDialog() {
                 Cancel
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create"}
+                {isPending && <Icons.spinner className="animate-spin" />}
+                Create
               </Button>
             </div>
           </form>

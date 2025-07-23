@@ -9,6 +9,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import { Episode } from "@/models/episode";
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common/icon";
 
 interface DeleteEpisodeDialogProps {
   episode: Episode;
@@ -69,7 +70,8 @@ export function DeleteEpisodeDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

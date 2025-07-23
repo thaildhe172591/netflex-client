@@ -10,6 +10,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { Movie } from "@/models";
 
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common/icon";
 
 interface DeleteMovieDialogProps {
   movie: Movie;
@@ -66,7 +67,8 @@ export function DeleteMovieDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

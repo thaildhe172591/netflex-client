@@ -61,7 +61,7 @@ export default function ConfirmEmailPage() {
 
   useEffect(() => {
     if (!email) {
-      router.replace("/login");
+      router.replace("/login?_modal=0");
     }
   }, [email, router]);
 

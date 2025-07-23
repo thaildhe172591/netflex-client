@@ -9,6 +9,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import { ReportItem } from "../columns";
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common";
 
 interface DeleteReportDialogProps {
   report: ReportItem;
@@ -65,7 +66,8 @@ export function DeleteReportDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

@@ -10,6 +10,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { GenreItem } from "../columns";
 
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common";
 
 interface DeleteGenreDialogProps {
   genre: GenreItem;
@@ -66,7 +67,8 @@ export function DeleteGenreDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

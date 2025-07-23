@@ -10,6 +10,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { ActorItem } from "../columns"; // Using ActorItem from columns.tsx for now
 
 import { Dispatch, SetStateAction } from "react";
+import { Icons } from "@/components/common";
 
 interface DeleteActorDialogProps {
   actor: ActorItem;
@@ -66,7 +67,8 @@ export function DeleteActorDialog({
           onClick={onSubmit}
           disabled={isPending}
         >
-          {isPending ? "Deleting..." : "Delete"}
+          {isPending && <Icons.spinner className="animate-spin" />}
+          Delete
         </Button>
       </div>
     </ResponsiveDialog>

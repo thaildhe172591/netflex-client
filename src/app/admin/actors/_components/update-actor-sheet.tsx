@@ -38,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Icons } from "@/components/common";
 
 const formSchema = z.object({
   id: z.number(),
@@ -253,7 +254,8 @@ export function UpdateActorSheet({
                       Cancel
                     </Button>
                     <Button type="submit" disabled={isPending}>
-                      {isPending ? "Updating..." : "Update"}
+                      {isPending && <Icons.spinner className="animate-spin" />}
+                      Update
                     </Button>
                   </div>
                 </>
