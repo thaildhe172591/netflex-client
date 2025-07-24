@@ -21,7 +21,7 @@ export default function SerieDetailPage({ params }: SerieDetailPageProps) {
     notFound();
   }
 
-  const { data: serie, isLoading, error } = useSerieDetail(serieId.toString());
+  const { data: serie, isLoading, error } = useSerieDetail(serieId);
 
   if (error) {
     notFound();

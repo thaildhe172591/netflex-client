@@ -19,7 +19,7 @@ export const serieApi = {
 
   delete: (serieId: number) => axiosClient.delete(`/series/${serieId}`),
 
-  get: async (serieId: string | number) => {
+  get: async (serieId: number) => {
     const response = await axiosClient.get<SerieDetail>(`/series/${serieId}`);
     return response.data;
   },
