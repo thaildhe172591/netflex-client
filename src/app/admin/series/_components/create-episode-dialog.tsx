@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { ResponsiveDialog } from "@/components/responsive-dialog";
-import { useCreateEpisode } from "../_hooks/use-episodes";
 import { CreateEpisodePayload } from "@/models/episode";
 import { useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants";
@@ -27,6 +26,7 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { FileUploader } from "@/components/file-uploader";
 import { useActors } from "@/app/admin/actors/_hooks/use-actor";
 import { Icons } from "@/components/common/icon";
+import { useCreateEpisode } from "../_hooks/use-episode-mutations";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),

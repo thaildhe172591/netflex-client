@@ -5,7 +5,7 @@ import { QueryKeys } from "@/constants";
 
 type MovieQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
-export const useMovie = (
+export const useMovies = (
   request: MovieFilter,
   options: MovieQueryOptions = {}
 ) =>

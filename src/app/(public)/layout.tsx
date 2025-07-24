@@ -56,7 +56,7 @@ export default function Layout({
           </div>
         </div>
       </nav>
-      <main className="max-w-screen-xl mx-auto p-4 sm:px-6 lg:px-8">
+      <main className="max-w-screen-xl mx-auto p-4 sm:px-6 lg:px-8 min-h-screen">
         {children}
       </main>
       <footer>

@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { ResponsiveDialog } from "@/components/responsive-dialog";
-import { useDeleteEpisode } from "../_hooks/use-episodes";
 import { useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants";
 import { Alert, AlertTitle } from "@/components/ui/alert";
@@ -10,6 +9,7 @@ import { AlertCircleIcon } from "lucide-react";
 import { Episode } from "@/models/episode";
 import { Dispatch, SetStateAction } from "react";
 import { Icons } from "@/components/common/icon";
+import { useDeleteEpisode } from "../_hooks/use-episode-mutations";
 
 interface DeleteEpisodeDialogProps {
   episode: Episode;

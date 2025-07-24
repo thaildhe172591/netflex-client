@@ -6,12 +6,12 @@ import { columns, ReportItem } from "./columns";
 import { useReports } from "./_hooks/use-report";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/use-debounce";
+import { useDebounce } from "use-debounce";
 
 export default function ReportPage() {
   const [pageIndex, setPageIndex] = useState(1);
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
 
   const { data: reportResponse } = useReports({
     pageIndex,

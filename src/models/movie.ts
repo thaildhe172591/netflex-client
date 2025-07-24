@@ -54,5 +54,7 @@ export interface MovieFilter extends PaginationRequest {
   genres?: number[];
   keywords?: number[];
   actors?: number[];
+  country?: string;
+  year?: string;
   sortby?: string;
 }

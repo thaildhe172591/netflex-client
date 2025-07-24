@@ -7,12 +7,12 @@ import { useActors } from "./_hooks/use-actor";
 import { Actor } from "@/models";
 import { CreateActorDialog } from "./_components/create-actor-dialog";
 import { Search } from "lucide-react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "use-debounce";
 
 export default function Page() {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
   const [pageIndex, setPageIndex] = useState(1);
 
   const { data: actorsData } = useActors({

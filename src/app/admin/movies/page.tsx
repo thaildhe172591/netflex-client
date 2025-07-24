@@ -3,19 +3,19 @@ import { useState } from "react";
 import { columns, MovieItem } from "./columns";
 import { DataTable } from "./data-table";
 import { Input } from "@/components/ui/input";
-import { useMovie } from "./_hooks/use-movie";
+import { useMovies } from "@/hooks/movie/use-movies";
 import { Movie } from "@/models";
 import { CreateMovieDialog } from "./_components/create-movie-dialog";
 import { Search } from "lucide-react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "use-debounce";
 
 export default function Page() {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
   const [pageIndex, setPageIndex] = useState(1);
 
-  const { data: moviesData } = useMovie({
+  const { data: moviesData } = useMovies({
     search: debouncedSearch,
     sortby: "release_date",
     pageIndex: pageIndex,

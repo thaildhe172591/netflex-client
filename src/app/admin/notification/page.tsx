@@ -6,12 +6,12 @@ import { columns } from "./columns";
 import { useNotifications } from "./_hooks/use-notification";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/use-debounce";
+import { useDebounce } from "use-debounce";
 
 export default function NotificationPage() {
   const [pageIndex, setPageIndex] = useState(1);
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
 
   const { data: notificationResponse } = useNotifications({
     pageIndex,

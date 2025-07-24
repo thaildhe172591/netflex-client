@@ -1,35 +1,7 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  UseQueryOptions,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { episodeApi } from "@/lib/api-client";
-import {
-  Episode,
-  CreateEpisodePayload,
-  UpdateEpisodePayload,
-  EpisodeFilter,
-  EpisodeDetail,
-} from "@/models/episode";
-import { PaginatedResult } from "@/models/pagination";
+import { CreateEpisodePayload, UpdateEpisodePayload } from "@/models/episode";
 import { QueryKeys } from "@/constants";
-
-export type ListQueryOptions = Omit<
-  UseQueryOptions<PaginatedResult<Episode>>,
-  "queryKey" | "queryFn"
->;
-
-export function useEpisodes(
-  filter: EpisodeFilter,
-  options: ListQueryOptions = {}
-) {
-  return useQuery({
-    ...options,
-    queryKey: [QueryKeys.EPISODES, filter],
-    queryFn: () => episodeApi.getAll(filter),
-  });
-}
 
 export function useCreateEpisode() {
   const queryClient = useQueryClient();
@@ -64,17 +36,5 @@ export function useDeleteEpisode() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.EPISODES] });
     },
-  });
-}
-
-export function useEpisodeDetail(
-  episodeId: number,
-  options: Omit<UseQueryOptions<EpisodeDetail>, "queryKey" | "queryFn"> = {}
-) {
-  return useQuery({
-    ...options,
-    queryKey: [QueryKeys.EPISODES, episodeId],
-    queryFn: () => episodeApi.get(episodeId),
-    enabled: !!episodeId,
   });
 }

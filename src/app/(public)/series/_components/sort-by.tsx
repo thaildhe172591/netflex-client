@@ -1,23 +1,25 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { useCountries } from "@/hooks/country/use-countries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface IProps {
   selected?: string;
-  onSelect?: (countryCode: string) => void;
-  onClear?: () => void;
+  onSelect?: (sortBy: string) => void;
 }
 
-export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
+const sortOptions = [
+  { value: "", label: "Newest" },
+  { value: "popularity", label: "Popular" },
+  { value: "name.asc", label: "A-Z" },
+];
+
+export function SortBy({ selected = "", onSelect }: IProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-
-  const { data: countries, isLoading } = useCountries();
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -62,42 +64,16 @@ export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleCountryClick = (countryCode: string) => {
+  const handleSortClick = (sortBy: string) => {
     if (isDragging) return;
-    onSelect?.(countryCode);
+    onSelect?.(sortBy);
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex gap-2 overflow-x-auto whitespace-nowrap py-1 scrollbar-hide">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-8 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse flex-shrink-0"
-            style={{ width: `${80 + Math.random() * 40}px` }}
-          />
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div className="relative">
-      <Button
-        variant={!selected ? "outline" : "secondary"}
-        size="sm"
-        className={cn(
-          "absolute left-0 top-1 z-10 transition-all flex-shrink-0 border border-border shadow-sm",
-          "hover:bg-background"
-        )}
-        onClick={onClear}
-      >
-        All Countries
-      </Button>
-
       <div
         ref={containerRef}
-        className="flex gap-2 pl-[7.4rem] overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none"
+        className="flex gap-2 overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -106,15 +82,15 @@ export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {countries?.map((country) => (
+        {sortOptions.map((option) => (
           <Button
-            key={country.iso_3166_1}
-            variant={selected === country.iso_3166_1 ? "outline" : "secondary"}
+            key={option.value}
+            variant={selected === option.value ? "outline" : "secondary"}
             size="sm"
             className={cn("border border-border hover:bg-background")}
-            onClick={() => handleCountryClick(country.iso_3166_1)}
+            onClick={() => handleSortClick(option.value)}
           >
-            {country.english_name}
+            {option.label}
           </Button>
         ))}
       </div>

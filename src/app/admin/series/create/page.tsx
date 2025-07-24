@@ -23,8 +23,8 @@ import {
 import { DatePicker } from "@/components/ui/date-picker";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { FileUploader } from "@/components/file-uploader";
-import { useCountries } from "@/hooks/use-countries";
-import { useGenres } from "@/app/admin/genres/_hooks/use-genre";
+import { useCountries } from "@/hooks/country/use-countries";
+import { useGenres } from "@/hooks/genre/use-genres";
 import {
   Select,
   SelectContent,

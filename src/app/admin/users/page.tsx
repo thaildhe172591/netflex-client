@@ -6,12 +6,12 @@ import { columns } from "./columns";
 import { useUsers } from "./_hooks/use-user";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/use-debounce";
+import { useDebounce } from "use-debounce";
 
 export default function UsersPage() {
   const [pageIndex, setPageIndex] = useState(1);
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
 
   const { data: userResponse } = useUsers({
     pageIndex,

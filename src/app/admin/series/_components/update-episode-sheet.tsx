@@ -12,8 +12,6 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { useUpdateEpisode } from "../_hooks/use-episodes";
-import { useEpisodeDetail } from "../_hooks/use-episodes";
 import { UpdateEpisodePayload } from "@/models/episode";
 import { useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/constants";
@@ -34,6 +32,8 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { FileUploader } from "@/components/file-uploader";
 import { useActors } from "@/app/admin/actors/_hooks/use-actor";
 import { Icons } from "@/components/common/icon";
+import { useEpisodeDetail } from "@/hooks/episode/use-episode-detail";
+import { useUpdateEpisode } from "../_hooks/use-episode-mutations";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),

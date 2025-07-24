@@ -3,17 +3,17 @@ import { useState } from "react";
 import { columns, SerieItem } from "./columns";
 import { DataTable } from "../../../components/data-table";
 import { Input } from "@/components/ui/input";
-import { useSeries } from "./_hooks/use-series";
+import { useSeries } from "@/hooks/serie/use-series";
 import { Serie } from "@/models/serie";
 import { Button } from "@/components/ui/button";
 import { CirclePlus, Search } from "lucide-react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "use-debounce";
 
 export default function SeriesPage() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
   const [pageIndex, setPageIndex] = useState(1);
 
   const { data: seriesData } = useSeries({

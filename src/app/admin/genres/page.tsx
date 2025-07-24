@@ -3,16 +3,16 @@ import { useState } from "react";
 import { columns, GenreItem } from "./columns";
 import { DataTable } from "./data-table";
 import { Input } from "@/components/ui/input";
-import { useGenres } from "./_hooks/use-genre";
+import { useGenres } from "@/hooks/genre/use-genres";
 import { Genre } from "@/models";
 import { CreateGenreDialog } from "./_components/create-genre-dialog";
 import { Search } from "lucide-react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { Button } from "@/components/ui/button";
+import { useDebounce } from "use-debounce";
 
 export default function Page() {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
   const [pageIndex, setPageIndex] = useState(1);
 
   const { data: genresData } = useGenres({

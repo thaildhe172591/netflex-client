@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { useDebounce } from "@/hooks/use-debounce";
 import { Episode } from "@/models/episode";
 import { CreateEpisodeDialog } from "./create-episode-dialog";
-import { useEpisodes } from "../_hooks/use-episodes";
+import { useEpisodes } from "@/hooks/episode/use-episodes";
 import { episodeColumns, EpisodeItem } from "./episode-columns";
 import { DataTable } from "@/components/data-table";
+import { useDebounce } from "use-debounce";
 
 interface EpisodeManagerProps {
   seriesId: number;
@@ -15,7 +15,7 @@ interface EpisodeManagerProps {
 
 export const EpisodeManager: React.FC<EpisodeManagerProps> = ({ seriesId }) => {
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
+  const [debouncedSearch] = useDebounce(search, 500);
   const [pageIndex, setPageIndex] = useState(1);
 
   const { data: episodeData } = useEpisodes({

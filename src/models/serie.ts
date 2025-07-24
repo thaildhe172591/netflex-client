@@ -47,4 +47,6 @@ export interface SerieFilter extends PaginationRequest {
   genres?: number[];
   keywords?: number[];
   sortBy?: string;
+  country?: string;
+  year?: string;
 }

@@ -25,8 +25,8 @@ import {
 import { DatePicker } from "@/components/ui/date-picker";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { FileUploader } from "@/components/file-uploader";
-import { useCountries } from "@/hooks/use-countries";
-import { useGenres } from "@/app/admin/genres/_hooks/use-genre";
+import { useCountries } from "@/hooks/country/use-countries";
+import { useGenres } from "@/hooks/genre/use-genres";
 import {
   Select,
   SelectContent,
@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSerieDetail } from "../_hooks/use-serie-detail";
+import { useSerieDetail } from "@/hooks/serie/use-serie-detail";
 import { useUpdateSerie } from "../_hooks/use-serie-mutations";
 import { UpdateSeriePayload } from "@/models";
 import { Icons } from "@/components/common/icon";
