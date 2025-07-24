@@ -12,11 +12,11 @@ import { serialize } from "../serialize-form-data";
 export const movieApi = {
   create: (payload: CreateMoviePayload) =>
     axiosClient.post("/movies", serialize(payload)),
-  update: (movieId: string, payload: UpdateMoviePayload) =>
+  update: (movieId: number, payload: UpdateMoviePayload) =>
     axiosClient.put(`/movies/${movieId}`, serialize(payload)),
-  delete: (movieId: string) => axiosClient.delete(`/movies/${movieId}`),
+  delete: (movieId: number) => axiosClient.delete(`/movies/${movieId}`),
 
-  get: async (movieId: string) => {
+  get: async (movieId: number) => {
     const response = await axiosClient.get<MovieDetail>(`/movies/${movieId}`);
     return response.data;
   },

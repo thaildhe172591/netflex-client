@@ -14,11 +14,10 @@ export const serieApi = {
   create: (payload: CreateSeriePayload) =>
     axiosClient.post("/series", serialize(payload)),
 
-  update: (serieId: string | number, payload: UpdateSeriePayload) =>
+  update: (serieId: number, payload: UpdateSeriePayload) =>
     axiosClient.put(`/series/${serieId}`, serialize(payload)),
 
-  delete: (serieId: string | number) =>
-    axiosClient.delete(`/series/${serieId}`),
+  delete: (serieId: number) => axiosClient.delete(`/series/${serieId}`),
 
   get: async (serieId: string | number) => {
     const response = await axiosClient.get<SerieDetail>(`/series/${serieId}`);

@@ -21,7 +21,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
     notFound();
   }
 
-  const { data: movie, isLoading, error } = useMovieDetail(movieId.toString());
+  const { data: movie, isLoading, error } = useMovieDetail(movieId);
 
   if (error) {
     notFound();

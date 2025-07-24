@@ -105,7 +105,7 @@ function SerieActionsCell({ row }: SerieActionsCellProps) {
       </DropdownMenu>
 
       <DeleteSerieDialog
-        serieId={String(serie.id)}
+        serieId={serie.id}
         serieName={serie.name}
         isOpen={isDeleteDialogOpen}
         setIsOpen={setIsDeleteDialogOpen}

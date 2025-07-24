@@ -110,7 +110,7 @@ function MovieActionsCell({ row }: MovieActionsCellProps) {
         </DropdownMenuContent>
       </DropdownMenu>
       <UpdateMovieSheet
-        movieId={movie.id.toString()}
+        movieId={movie.id}
         isOpen={isUpdateSheetOpen}
         setIsOpen={setIsUpdateSheetOpen}
       />

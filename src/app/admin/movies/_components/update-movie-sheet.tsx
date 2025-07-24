@@ -79,7 +79,7 @@ const formSchema = z.object({
 type MovieFormValues = z.infer<typeof formSchema>;
 
 interface UpdateMovieSheetProps {
-  movieId: string;
+  movieId: number;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }

@@ -12,12 +12,17 @@ export const useCreateMovie = () =>
 export const useUpdateMovie = () =>
   useMutation({
     mutationKey: [QueryKeys.MOVIES, "update"],
-    mutationFn: ({ movieId, payload }: { movieId: string; payload: UpdateMoviePayload }) =>
-      movieApi.update(movieId, payload),
+    mutationFn: ({
+      movieId,
+      payload,
+    }: {
+      movieId: number;
+      payload: UpdateMoviePayload;
+    }) => movieApi.update(movieId, payload),
   });
 
 export const useDeleteMovie = () =>
   useMutation({
     mutationKey: [QueryKeys.MOVIES, "delete"],
-    mutationFn: (movieId: string) => movieApi.delete(movieId),
+    mutationFn: (movieId: number) => movieApi.delete(movieId),
   });

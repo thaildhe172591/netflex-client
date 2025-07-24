@@ -11,7 +11,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Icons } from "@/components/common/icon";
 
 interface DeleteSerieDialogProps {
-  serieId: string;
+  serieId: number;
   serieName?: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;

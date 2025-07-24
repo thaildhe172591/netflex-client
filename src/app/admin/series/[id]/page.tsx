@@ -121,7 +121,7 @@ export default function SerieDetailPage() {
 
   const onSubmit = async (values: SerieFormValues) => {
     updateSerie(
-      { serieId: String(serieId), payload: values as UpdateSeriePayload },
+      { serieId: serieId, payload: values as UpdateSeriePayload },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [QueryKeys.SERIES] });

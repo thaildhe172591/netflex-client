@@ -16,7 +16,7 @@ export const useUpdateSerie = () =>
       serieId,
       payload,
     }: {
-      serieId: string;
+      serieId: number;
       payload: UpdateSeriePayload;
     }) => serieApi.update(serieId, payload),
   });
@@ -24,5 +24,5 @@ export const useUpdateSerie = () =>
 export const useDeleteSerie = () =>
   useMutation({
     mutationKey: [QueryKeys.SERIES, "delete"],
-    mutationFn: (serieId: string) => serieApi.delete(serieId),
+    mutationFn: (serieId: number) => serieApi.delete(serieId),
   });

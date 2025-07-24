@@ -27,7 +27,7 @@ export function DeleteMovieDialog({
   const { mutate: deleteMovie, isPending, error } = useDeleteMovie();
 
   const onSubmit = async () => {
-    deleteMovie(movie.id.toString(), {
+    deleteMovie(movie.id, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QueryKeys.MOVIES] });
         setIsOpen(false);
