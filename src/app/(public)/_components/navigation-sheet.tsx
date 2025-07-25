@@ -31,13 +31,13 @@ export const NavigationSheet = () => {
           <Link href="/" className={className}>
             Home
           </Link>
-          <Link href="/" className={className}>
+          <Link href="/movies" className={className}>
             Movies
           </Link>
-          <Link href="/" className={className}>
+          <Link href="/series" className={className}>
             TV Series
           </Link>
-          <Link href="/" className={className}>
+          <Link href="/privacy" className={className}>
             Privacy
           </Link>
         </div>

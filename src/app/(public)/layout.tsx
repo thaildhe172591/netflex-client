@@ -30,7 +30,7 @@ export default function Layout({
           <div className="flex items-center gap-3">
             {data ? (
               <>
-                <span className="text-sm">{data.email}</span>
+                <span className="text-sm hidden md:block">{data.email}</span>
                 <Button
                   variant="outline"
                   onClick={async () =>
