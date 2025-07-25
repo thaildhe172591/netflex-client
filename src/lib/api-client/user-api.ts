@@ -59,4 +59,7 @@ export const userApi = {
 
   markAllNotificationsRead: () =>
     axiosClient.post("/users/notifications/readall"),
+
+  assignRole: (payload: { userId: string; roleName: string }) =>
+    axiosClient.post("/users/roles", payload),
 };

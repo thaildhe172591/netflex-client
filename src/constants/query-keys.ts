@@ -1,5 +1,6 @@
 export const QueryKeys = {
   USER_INFO: "USER_INFO",
+  USERS: "USERS",
   SOCIAL_LOGIN: "SOCIAL_LOGIN",
 
   MOVIES: "MOVIES",

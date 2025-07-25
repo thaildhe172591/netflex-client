@@ -26,13 +26,9 @@ import { NavUser } from "./nav-user";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Icons } from "@/components/common";
+import { useAuth } from "@/hooks";
 
 const data = {
-  user: {
-    name: "ngoxuanbac",
-    email: "bacnxhe172646@fpt.edu.vn",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navHome: [
     {
       title: "Movies",
@@ -76,6 +72,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: user } = useAuth();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -97,7 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
