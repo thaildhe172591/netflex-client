@@ -39,7 +39,7 @@ export default function Layout({
   });
 
   return (
-    <Auth roles={[Roles.ADMIN, Roles.MODERATOR, Roles.USER]}>
+    <Auth roles={[Roles.ADMIN, Roles.MODERATOR]}>
       <div className="min-h-screen">
         <SidebarProvider>
           <AppSidebar />
