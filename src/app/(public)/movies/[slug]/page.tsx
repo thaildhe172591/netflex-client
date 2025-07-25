@@ -142,7 +142,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-4">
         <div className="hidden lg:flex lg:justify-start">
-          <div className="w-[200px] h-[280px] bg-muted rounded-sm overflow-hidden shadow-lg">
+          <div className="w-[200px] h-[280px] bg-muted rounded-lg overflow-hidden shadow-lg">
             {movie.posterPath ? (
               <Image
                 src={movie.posterPath}
