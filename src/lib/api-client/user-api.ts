@@ -2,14 +2,19 @@ import {
   ChangePasswordPayload,
   CreateUserPayload,
   FollowPayload,
+  UnfollowPayload,
+  GetFollowParams,
   GetNotificationsParams,
+  GetReviewParams,
   GetUsersParams,
   NotificationDto,
   PaginatedResult,
   ReportPayload,
   ReviewPayload,
+  ReviewDto,
   UpdateUserPayload,
   UserDto,
+  FollowDto,
 } from "@/models";
 import axiosClient from "./axios-client";
 
@@ -29,14 +34,20 @@ export const userApi = {
   follow: (payload: FollowPayload) =>
     axiosClient.post("/users/follow", payload),
 
-  unfollow: (payload: FollowPayload) =>
+  unfollow: (payload: UnfollowPayload) =>
     axiosClient.post("/users/unfollow", payload),
+
+  getFollowStatus: (params: GetFollowParams) =>
+    axiosClient.get<FollowDto>("/users/follow", { params }),
 
   report: (payload: ReportPayload) =>
     axiosClient.post("/users/report", payload),
 
   review: (payload: ReviewPayload) =>
     axiosClient.post("/users/review", payload),
+
+  getReview: (params: GetReviewParams) =>
+    axiosClient.get<ReviewDto>("/users/review", { params }),
 
   getNotifications: (params?: GetNotificationsParams) =>
     axiosClient.get<PaginatedResult<NotificationDto>>("/users/notifications", {

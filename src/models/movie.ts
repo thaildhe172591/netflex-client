@@ -47,6 +47,8 @@ export interface Movie {
   countryIso?: string;
   runtime?: number;
   releaseDate?: Date;
+  averageRating?: number;
+  totalReviews?: number;
 }
 
 export interface MovieFilter extends PaginationRequest {

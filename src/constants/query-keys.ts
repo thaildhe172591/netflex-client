@@ -12,4 +12,8 @@ export const QueryKeys = {
 
   EPISODES: "EPISODES",
   NOTIFICATIONS: "NOTIFICATIONS",
+
+  // Follow & Review
+  FOLLOW_STATUS: "FOLLOW_STATUS",
+  USER_REVIEW: "USER_REVIEW",
 };

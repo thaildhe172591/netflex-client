@@ -2,12 +2,31 @@
 
 import { notFound } from "next/navigation";
 import { useMovieDetail } from "@/hooks/movie/use-movie-detail";
+import { useUserReview } from "@/hooks/review/use-user-review";
+import { useSubmitReview } from "@/hooks/review/use-submit-review";
+import { useAuth } from "@/hooks/use-auth";
 import { extractIdFromSlug } from "@/lib/slug";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { HlsVideoPlayer } from "@/components/hls-video-player";
+import { FollowButton } from "@/app/(public)/_components/follow-button";
+import { ReportDialog } from "@/app/(public)/_components/report-dialog";
+import { ActorCards } from "@/app/(public)/_components/actor-cards";
+import { RelatedMovies } from "@/app/(public)/movies/_components/related-movies";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { StarRating } from "@/components/star-rating";
+import { useState, use, useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { use } from "react";
+import { Flag } from "lucide-react";
+import { Icons } from "@/components/common";
 
 interface MovieDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -16,116 +35,230 @@ interface MovieDetailPageProps {
 export default function MovieDetailPage({ params }: MovieDetailPageProps) {
   const { slug } = use(params);
   const movieId = extractIdFromSlug(slug);
+  const [userRating, setUserRating] = useState(0);
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 
-  if (!movieId) {
-    notFound();
-  }
+  if (!movieId) notFound();
 
+  const auth = useAuth();
   const { data: movie, isLoading, error } = useMovieDetail(movieId);
+  const { data: userReview } = useUserReview({
+    targetId: movieId.toString(),
+    targetType: "movie",
+  });
+  const submitReview = useSubmitReview();
 
-  if (error) {
-    notFound();
-  }
+  useEffect(() => {
+    if (userReview?.data?.rating) {
+      setUserRating(userReview.data.rating);
+    } else {
+      setUserRating(0);
+    }
+  }, [userReview]);
 
-  if (isLoading) {
+  if (isLoading)
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-1">
-            <Skeleton className="aspect-[4/5] w-full rounded-lg" />
-          </div>
-          <div className="md:col-span-2 space-y-4">
-            <Skeleton className="h-8 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-24 w-full" />
-            <div className="flex gap-2">
-              <Skeleton className="h-6 w-16" />
-              <Skeleton className="h-6 w-16" />
-            </div>
-          </div>
-        </div>
+      <div className="flex items-center justify-center">
+        <Icons.spinner className="animate-spin" />
       </div>
     );
-  }
+  if (!movie || error) notFound();
 
-  if (!movie) {
-    notFound();
-  }
+  const handleUserRatingChange = async (rating: number) => {
+    if (!auth.data) return;
+    setUserRating(rating);
+
+    try {
+      await submitReview.mutateAsync({
+        targetId: movieId.toString(),
+        targetType: "movie",
+        rating,
+      });
+    } catch {
+      setUserRating(userReview?.data?.rating || 0);
+    }
+  };
+
+  const displayRating = userRating > 0 ? userRating : movie.averageRating || 0;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
-          <Card className="overflow-hidden">
-            <div className="aspect-[4/5] relative">
+    <div>
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/movies">Movies</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{movie.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <div className="mb-6">
+        {movie.videoUrl ? (
+          <HlsVideoPlayer
+            src={movie.videoUrl}
+            className="w-full aspect-video rounded-sm bg-foreground"
+          />
+        ) : (
+          <div className="w-full aspect-video bg-foreground flex items-center justify-center border rounded-sm">
+            <p className="text-muted-foreground">No video available</p>
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2">
+        <div className="hidden lg:flex lg:justify-start">
+          <div className="w-[200px] h-[280px] bg-muted rounded-sm overflow-hidden shadow-lg">
+            {movie.posterPath ? (
               <Image
-                src={movie.posterPath || "/placeholder.png"}
+                src={movie.posterPath}
                 alt={movie.title}
-                fill
-                className="object-cover"
+                width={200}
+                height={200}
+                className="w-full h-full object-cover"
               />
-            </div>
-          </Card>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center rounded-sm">
+                <p className="text-muted-foreground text-center px-4">
+                  Poster not available
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="md:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl font-bold">
-                {movie.title}
-              </CardTitle>
-              <div className="flex gap-2 items-center">
-                {movie.videoUrl ? (
-                  <Badge>Watch Now</Badge>
-                ) : (
-                  <Badge variant="secondary">Coming Soon</Badge>
-                )}
-                <span className="text-muted-foreground">
-                  {movie.releaseDate
-                    ? new Date(movie.releaseDate).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })
-                    : "TBA"}
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold mb-1">
+            {movie.title}{" "}
+            <span className="font-normal">
+              ({movie.releaseDate && new Date(movie.releaseDate).getFullYear()})
+            </span>
+          </h1>
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            {movie.releaseDate && (
+              <>
+                <span>
+                  {new Date(movie.releaseDate).toLocaleDateString("en-US", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                  })}
                 </span>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {movie.overview && (
-                <div>
-                  <h3 className="font-semibold mb-2">Overview</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {movie.overview}
-                  </p>
-                </div>
-              )}
+                <span>•</span>
+              </>
+            )}
+            {movie.runtime && (
+              <>
+                <span>{movie.runtime} minutes</span>
+                <span>•</span>
+              </>
+            )}
+            <span>{movie.countryIso ? movie.countryIso : "N/A"}</span>
+          </div>
 
-              {movie.genres && movie.genres.length > 0 && (
-                <div>
-                  <h3 className="font-semibold mb-2">Genres</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {movie.genres.map((genre) => (
-                      <Badge key={genre.id} variant="outline">
-                        {genre.name}
+          <div className="flex items-center gap-2">
+            <FollowButton targetId={movieId.toString()} targetType="movie" />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsReportDialogOpen(true)}
+            >
+              <Flag className="w-4 h-4 mr-2" />
+              Report
+            </Button>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center justify-center text-xl font-bold w-12 h-12 bg-muted-foreground rounded text-background">
+                {displayRating.toFixed(1)}
+              </span>
+              <div className="flex flex-col gap-1">
+                <StarRating
+                  rating={userRating}
+                  size="lg"
+                  interactive={!!auth.data}
+                  onRatingChange={handleUserRatingChange}
+                />
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <span>{movie.totalReviews} reviews</span>
+
+                  {!auth.data && (
+                    <>
+                      <Badge
+                        variant="secondary"
+                        className="bg-blue-500 text-white dark:bg-blue-600 rounded"
+                      >
+                        Login to rate
                       </Badge>
-                    ))}
-                  </div>
+                    </>
+                  )}
                 </div>
-              )}
+              </div>
+            </div>
+          </div>
+          {movie.genres && movie.genres.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {movie.genres.map((genre) => (
+                <Link
+                  key={genre.id}
+                  href={`/movies?genres=${genre.id}`}
+                  className="transition-transform duration-200 hover:scale-105 active:scale-95"
+                >
+                  <Badge
+                    variant={"outline"}
+                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors duration-200 rounded"
+                  >
+                    {genre.name}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <Badge variant="outline" className="rounded">
+              No genre
+            </Badge>
+          )}
 
-              {movie.runtime && (
-                <div>
-                  <h3 className="font-semibold mb-2">Runtime</h3>
-                  <p className="text-muted-foreground">
-                    {movie.runtime} minutes
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {movie.overview && (
+            <div>
+              <h3 className="text-sm mb-1">Overview:</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {movie.overview}
+              </p>
+            </div>
+          )}
         </div>
       </div>
+      {movie.actors && movie.actors.length > 0 && (
+        <div className="w-full mt-2">
+          <ActorCards actors={movie.actors} />
+        </div>
+      )}
+
+      {movie.genres && movie.genres.length > 0 && (
+        <div className="w-full mt-2">
+          <RelatedMovies currentMovieId={movieId} genres={movie.genres} />
+        </div>
+      )}
+
+      <ReportDialog
+        open={isReportDialogOpen}
+        onOpenChange={setIsReportDialogOpen}
+        from={`/movies/${slug}`}
+        targetTitle={movie.title}
+      />
     </div>
   );
 }

@@ -33,16 +33,47 @@ export interface FollowPayload {
   targetType: string;
 }
 
+export interface UnfollowPayload {
+  targetId: string;
+  targetType: string;
+}
+
+export interface GetFollowParams {
+  targetId: string;
+  targetType: string;
+}
+
+export interface FollowDto {
+  targetId: string;
+  targetType: string;
+  userId: string;
+  createdAt: Date;
+}
+
 export interface ReportPayload {
   reason: string;
   description?: string;
 }
 
 export interface ReviewPayload {
-  userId: string;
   targetId: string;
   targetType: string;
   rating: number;
+}
+
+export interface GetReviewParams {
+  targetId: string;
+  targetType: string;
+}
+
+export interface ReviewDto {
+  targetId: string;
+  targetType: string;
+  userId: string;
+  rating: number;
+  comment?: string;
+  likeCount: number;
+  createdAt: Date;
 }
 
 export interface GetUsersParams {

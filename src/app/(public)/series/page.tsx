@@ -38,6 +38,7 @@ export default function Page() {
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
+    if (!pathname.includes("/series/")) return;
     if (debouncedSearch) {
       params.set("query", debouncedSearch);
     } else {
@@ -64,7 +65,7 @@ export default function Page() {
       params.delete("sortby");
     }
     params.set("page", pageIndex.toString());
-    router.push(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
   }, [
     debouncedSearch,
     selectedGenres,
@@ -105,12 +106,14 @@ export default function Page() {
   };
 
   const handleCountrySelect = (countryCode: string) => {
-    setSelectedCountry(countryCode);
+    if (selectedCountry === countryCode) setSelectedCountry("");
+    else setSelectedCountry(countryCode);
     setPageIndex(1);
   };
 
   const handleYearSelect = (year: string) => {
-    setSelectedYear(year);
+    if (selectedYear === year) setSelectedYear("");
+    else setSelectedYear(year);
     setPageIndex(1);
   };
 

@@ -16,8 +16,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const { data, isLoading, logout } = useAuth();
-  if (isLoading) return;
+  const { data, logout } = useAuth();
+
   return (
     <div className="min-h-screen bg-muted">
       <nav className="h-16 bg-background border-b">
@@ -61,7 +61,7 @@ export default function Layout({
       </main>
       <footer>
         <Separator />
-        <div className="flex  sm:flex-row items-center justify-between gap-x-2 gap-y-5 p-6 text-sm">
+        <div className="flex sm:flex-row items-center justify-between gap-x-2 gap-y-5 p-6 text-sm max-w-screen-xl mx-auto">
           <span className="text-muted-foreground">
             &copy; {new Date().getFullYear()}{" "}
             <Link href="/">Netflex Company</Link>. All rights reserved.
