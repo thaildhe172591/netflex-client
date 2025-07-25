@@ -1,12 +1,4 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 import { useSubmitReport } from "@/hooks/use-submit-report";
+import { Icons } from "@/components/common/icon";
 
 interface ReportDialogProps {
   open: boolean;
@@ -50,7 +44,6 @@ export function ReportDialog({
     if (!reason.trim()) return;
 
     try {
-      // Create JSON description with content and from information
       const jsonDescription = JSON.stringify({
         content: description.trim() || "",
         from: from,
@@ -72,62 +65,65 @@ export function ReportDialog({
   const isSubmitDisabled = !reason.trim() || submitReport.isPending;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Report</DialogTitle>
-          <DialogDescription>
-            Report &quot;{targetTitle}&quot; for inappropriate content or
-            violations.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="grid gap-4 py-4">
-          <div className="grid gap-2">
-            <Label htmlFor="reason">Reason *</Label>
-            <Select value={reason} onValueChange={setReason}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a reason" />
-              </SelectTrigger>
-              <SelectContent>
-                {REPORT_REASONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="description">Additional Details (Optional)</Label>
-            <Textarea
-              id="description"
-              placeholder="Provide additional context about your report..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={4}
-            />
-          </div>
+    <ResponsiveDialog
+      isOpen={open}
+      setIsOpen={(value) => {
+        if (typeof value === "boolean") {
+          onOpenChange(value);
+        } else {
+          onOpenChange(value(open));
+        }
+      }}
+      title="Report"
+      description={`Report "${targetTitle}" for inappropriate content or violations.`}
+      className="sm:max-w-[425px]"
+    >
+      <div className="grid gap-4 py-4">
+        <div className="grid gap-2">
+          <Label htmlFor="reason">Reason *</Label>
+          <Select value={reason} onValueChange={setReason}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a reason" />
+            </SelectTrigger>
+            <SelectContent>
+              {REPORT_REASONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={submitReport.isPending}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={isSubmitDisabled}
-            className="bg-red-600 hover:bg-red-700"
-          >
-            {submitReport.isPending ? "Submitting..." : "Submit Report"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        <div className="grid gap-2">
+          <Label htmlFor="description">Additional Details (Optional)</Label>
+          <Textarea
+            id="description"
+            placeholder="Provide additional context about your report..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-2 pt-4 border-t">
+        <Button
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+          disabled={submitReport.isPending}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+          className="bg-red-600 hover:bg-red-700"
+        >
+          {submitReport.isPending && <Icons.spinner className="animate-spin" />}
+          Submit
+        </Button>
+      </div>
+    </ResponsiveDialog>
   );
 }

@@ -64,8 +64,8 @@ export function YearFilter({ selected = "", onSelect, onClear }: IProps) {
 
       <div
         ref={containerRef}
-        className="flex gap-2 pl-[5.5rem] overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none touch-pan-x"
-        style={{ touchAction: "pan-x" }} // Chỉ cho phép scroll ngang
+        className="flex gap-2 pl-[5.7rem] overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none touch-pan-x"
+        style={{ touchAction: "pan-x" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
