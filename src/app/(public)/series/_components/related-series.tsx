@@ -51,16 +51,17 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (!containerRef.current) return;
     setIsDragging(true);
-    setStartX(e.touches[0].pageX - containerRef.current.offsetLeft);
+    setStartX(e.touches[0].clientX);
     setScrollLeft(containerRef.current.scrollLeft);
   }, []);
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
       if (!isDragging || !containerRef.current) return;
-      const x = e.touches[0].pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX) * 2;
-      containerRef.current.scrollLeft = scrollLeft - walk;
+      e.preventDefault();
+      const x = e.touches[0].clientX;
+      const walk = (startX - x) * 2;
+      containerRef.current.scrollLeft = scrollLeft + walk;
     },
     [isDragging, startX, scrollLeft]
   );
@@ -80,7 +81,7 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
         <h2 className="m-0 font-semibold">Related Series</h2>
         <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="min-w-[200px]">
+            <div key={index} className="min-w-[180px]">
               <SerieCardSkeleton />
             </div>
           ))}
@@ -98,7 +99,8 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
       <h2 className="m-0 text-sm font-semibold">Related Series</h2>
       <div
         ref={containerRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2"
+        className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2 touch-pan-x"
+        style={{ touchAction: "pan-x" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -108,7 +110,7 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
         onTouchEnd={handleTouchEnd}
       >
         {relatedSeries.map((serie: Serie) => (
-          <div key={serie.id} className="w-[180px]">
+          <div key={serie.id} className="w-[180px] flex-shrink-0">
             <SerieCard serie={serie} />
           </div>
         ))}
