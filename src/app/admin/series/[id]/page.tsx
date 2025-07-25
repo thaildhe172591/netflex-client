@@ -75,7 +75,7 @@ export default function SerieDetailPage() {
     data: serie,
     isLoading,
     error: fetchError,
-  } = useSerieDetail(String(serieId));
+  } = useSerieDetail(serieId);
   const {
     mutate: updateSerie,
     isPending,
