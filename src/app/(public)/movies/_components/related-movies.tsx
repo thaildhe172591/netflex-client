@@ -47,27 +47,27 @@ export function RelatedMovies({ currentMovieId, genres, className }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!containerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setScrollLeft(containerRef.current.scrollLeft);
-  }, []);
+  // const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  //   if (!containerRef.current) return;
+  //   setIsDragging(true);
+  //   setStartX(e.touches[0].clientX);
+  //   setScrollLeft(containerRef.current.scrollLeft);
+  // }, []);
 
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      e.preventDefault();
-      const x = e.touches[0].clientX;
-      const walk = (startX - x) * 2;
-      containerRef.current.scrollLeft = scrollLeft + walk;
-    },
-    [isDragging, startX, scrollLeft]
-  );
+  // const handleTouchMove = useCallback(
+  //   (e: React.TouchEvent) => {
+  //     if (!isDragging || !containerRef.current) return;
+  //     e.preventDefault();
+  //     const x = e.touches[0].clientX;
+  //     const walk = (startX - x) * 2;
+  //     containerRef.current.scrollLeft = scrollLeft + walk;
+  //   },
+  //   [isDragging, startX, scrollLeft]
+  // );
 
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
+  // const handleTouchEnd = useCallback(() => {
+  //   setIsDragging(false);
+  // }, []);
 
   const relatedMovies =
     relatedMoviesData?.data?.filter(
@@ -104,9 +104,9 @@ export function RelatedMovies({ currentMovieId, genres, className }: IProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        // onTouchStart={handleTouchStart}
+        // onTouchMove={handleTouchMove}
+        // onTouchEnd={handleTouchEnd}
       >
         {relatedMovies.map((movie: Movie) => (
           <div key={movie.id} className="min-w-[180px] flex-shrink-0">
