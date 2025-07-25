@@ -48,28 +48,6 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!containerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setScrollLeft(containerRef.current.scrollLeft);
-  }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      e.preventDefault();
-      const x = e.touches[0].clientX;
-      const walk = (startX - x) * 2;
-      containerRef.current.scrollLeft = scrollLeft + walk;
-    },
-    [isDragging, startX, scrollLeft]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
   const relatedSeries =
     relatedSeriesData?.data?.filter(
       (serie: Serie) => serie.id !== currentSerieId
@@ -105,9 +83,6 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {relatedSeries.map((serie: Serie) => (
           <div key={serie.id} className="w-[180px] flex-shrink-0">

@@ -130,27 +130,6 @@ export function EpisodeList({
     setIsDragging(false);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!containerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX - containerRef.current.offsetLeft);
-    setScrollLeft(containerRef.current.scrollLeft);
-  }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      const x = e.touches[0].pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX) * 1.5; // Reduced multiplier for smoother scrolling
-      containerRef.current.scrollLeft = scrollLeft - walk;
-    },
-    [isDragging, startX, scrollLeft]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
   const scrollToDirection = (direction: "left" | "right") => {
     if (!containerRef.current) return;
     const scrollAmount = 300;
@@ -163,7 +142,6 @@ export function EpisodeList({
       behavior: "smooth",
     });
 
-    // Check scroll state after animation completes
     setTimeout(() => {
       checkScrollState();
     }, 300);
@@ -246,9 +224,6 @@ export function EpisodeList({
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {episodes.map((episode: Episode) => {
           const isSelected = episode.id === selectedEpisodeId;

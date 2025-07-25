@@ -43,28 +43,6 @@ export function YearFilter({ selected = "", onSelect, onClear }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!containerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setScrollLeft(containerRef.current.scrollLeft);
-  }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      e.preventDefault();
-      const x = e.touches[0].clientX;
-      const walk = (startX - x) * 1.5;
-      containerRef.current.scrollLeft = scrollLeft + walk;
-    },
-    [isDragging, startX, scrollLeft]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
   const handleYearClick = (year: string) => {
     if (isDragging) return;
     onSelect?.(year);
@@ -92,9 +70,6 @@ export function YearFilter({ selected = "", onSelect, onClear }: IProps) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {years.map((year) => (
           <Button

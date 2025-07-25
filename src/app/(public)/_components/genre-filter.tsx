@@ -48,28 +48,6 @@ export function GenreFilter({ selected = [], onSelect, onClear }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!containerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setScrollLeft(containerRef.current.scrollLeft);
-  }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging || !containerRef.current) return;
-      e.preventDefault();
-      const x = e.touches[0].clientX;
-      const walk = (startX - x) * 1.5;
-      containerRef.current.scrollLeft = scrollLeft + walk;
-    },
-    [isDragging, startX, scrollLeft]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
   useEffect(() => {
     const loadMoreTrigger = loadMoreTriggerRef.current;
     if (!loadMoreTrigger || !hasNextPage || isFetchingNextPage) return;
@@ -131,14 +109,11 @@ export function GenreFilter({ selected = [], onSelect, onClear }: IProps) {
       <div
         ref={containerRef}
         className="flex gap-2 pl-[6.4rem] overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none touch-pan-x"
-        style={{ touchAction: "pan-x" }} // Chỉ cho phép scroll ngang
+        style={{ touchAction: "pan-x" }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {genres.map((genre) => (
           <Button
