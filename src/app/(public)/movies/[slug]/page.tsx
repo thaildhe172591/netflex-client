@@ -26,6 +26,8 @@ import { useState, use, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Flag } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { QueryKeys } from "@/constants/query-keys";
 
 interface MovieDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -40,6 +42,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
   if (!movieId) notFound();
 
   const auth = useAuth();
+  const queryClient = useQueryClient();
   const { data: movie, isLoading, error } = useMovieDetail(movieId);
   const { data: userReview } = useUserReview({
     targetId: movieId.toString(),
@@ -93,12 +96,14 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
         targetType: "movie",
         rating,
       });
+
+      await queryClient.invalidateQueries({
+        queryKey: [QueryKeys.MOVIES, movieId],
+      });
     } catch {
       setUserRating(userReview?.data?.rating || 0);
     }
   };
-
-  const displayRating = userRating > 0 ? userRating : movie.averageRating || 0;
 
   return (
     <div>
@@ -201,7 +206,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <span className="flex items-center justify-center text-xl font-bold w-12 h-12 bg-muted-foreground rounded text-background">
-                {displayRating.toFixed(1)}
+                {movie.averageRating?.toFixed(1) || 0}
               </span>
               <div className="flex flex-col gap-1">
                 <StarRating

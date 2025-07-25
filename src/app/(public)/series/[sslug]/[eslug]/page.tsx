@@ -98,10 +98,6 @@ export default function EpisodeDetailPage({ params }: EpisodeDetailPageProps) {
       await queryClient.invalidateQueries({
         queryKey: [QueryKeys.SERIES, serieId],
       });
-
-      await queryClient.invalidateQueries({
-        queryKey: [QueryKeys.USER_REVIEW, serieId.toString(), "serie"],
-      });
     } catch {
       setUserRating(userReview?.data?.rating || 0);
     }

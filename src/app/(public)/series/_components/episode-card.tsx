@@ -1,9 +1,11 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { Episode } from "@/models/episode";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
+import { generateThumbnailFromHls } from "@/lib/generate-thumbnail";
 
 interface EpisodeCardProps {
   episode: Episode;
@@ -14,26 +16,43 @@ interface EpisodeCardProps {
 
 export const EpisodeCard = forwardRef<HTMLDivElement, EpisodeCardProps>(
   ({ episode, isSelected = false, isDragging = false, onClick }, ref) => {
+    const [thumbnail, setThumbnail] = useState<string | null>(null);
+
     const handleClick = () => {
       if (isDragging) return;
       onClick(episode);
     };
 
+    useEffect(() => {
+      if (!episode.videoUrl) return;
+      generateThumbnailFromHls(episode.videoUrl).then(setThumbnail);
+    }, [episode.videoUrl]);
+
     return (
-      <div ref={ref} className="w-[280px]">
+      <div ref={ref} className="w-[280px] flex-shrink-0">
         <Card
           className={cn(
-            "group relative overflow-hidden p-0 cursor-pointer transition-all hover:shadow-lg gap-1",
-            isSelected && "ring-2 ring-primary"
+            "group relative overflow-hidden p-0 cursor-pointer transition-all hover:shadow-lg gap-1 rounded-lg",
+            isSelected && "border-2 border-primary"
           )}
           onClick={handleClick}
         >
           <div className="aspect-video relative overflow-hidden">
-            <div className="w-full h-full bg-muted flex items-center justify-center">
-              <p className="text-muted-foreground text-sm">
-                Episode {episode.episodeNumber}
-              </p>
-            </div>
+            {thumbnail ? (
+              <Image
+                src={thumbnail}
+                alt={`Episode ${episode.episodeNumber} - ${episode.name}`}
+                fill
+                className="object-cover"
+                sizes="280px"
+              />
+            ) : (
+              <div className="w-full h-full bg-muted flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">
+                  Episode {episode.episodeNumber}
+                </p>
+              </div>
+            )}
 
             <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
               Ep {episode.episodeNumber}
@@ -41,7 +60,7 @@ export const EpisodeCard = forwardRef<HTMLDivElement, EpisodeCardProps>(
 
             {isSelected && (
               <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
+                <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
                   Now Playing
                 </div>
               </div>

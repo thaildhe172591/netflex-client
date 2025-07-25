@@ -95,7 +95,7 @@ export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
 
   return (
     <div className={cn("space-y-2 mt-4", className)}>
-      <h2 className="m-0 font-semibold">Related Series</h2>
+      <h2 className="m-0 text-sm font-semibold">Related Series</h2>
       <div
         ref={containerRef}
         className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2"
