@@ -11,7 +11,7 @@ interface IProps {
 
 const sortOptions = [
   { value: "", label: "Newest" },
-  { value: "popularity", label: "Popular" },
+  { value: "averagerating.desc", label: "Popular" },
   { value: "title.asc", label: "A-Z" },
 ];
 

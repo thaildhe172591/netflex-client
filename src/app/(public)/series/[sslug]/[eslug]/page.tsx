@@ -197,7 +197,7 @@ export default function EpisodeDetailPage({ params }: EpisodeDetailPageProps) {
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold mb-1">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold mb-1">
             {episode.name}{" "}
             <span className="font-normal">
               (Episode {episode.episodeNumber})

@@ -38,7 +38,7 @@ export function GenreFilter({ selected = [], onSelect, onClear }: IProps) {
       if (!isDragging || !containerRef.current) return;
       e.preventDefault();
       const x = e.pageX - containerRef.current.offsetLeft;
-      const walk = (x - startX) * 1.5; // Giảm sensitivity để đồng nhất với touch
+      const walk = (x - startX) * 1.5;
       containerRef.current.scrollLeft = scrollLeft - walk;
     },
     [isDragging, startX, scrollLeft]
