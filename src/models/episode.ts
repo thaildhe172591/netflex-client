@@ -3,7 +3,7 @@ import { Actor } from "./actor";
 
 export interface Episode {
   id: number;
-  serieId: number;
+  seriesId: number;
   name: string;
   overview?: string;
   airDate?: Date;

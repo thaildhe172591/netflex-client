@@ -1,23 +1,30 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { useCountries } from "@/hooks/country/use-countries";
-import { Button } from "@/components/ui/button";
+import { useSeries } from "@/hooks/serie/use-series";
+import { Serie } from "@/models/serie";
+import { Genre } from "@/models/genre";
 import { cn } from "@/lib/utils";
+import { SerieCard } from "@/app/(public)/series/_components/serie-card";
+import { SerieCardSkeleton } from "@/app/(public)/series/_components/serie-card-skeleton";
 
 interface IProps {
-  selected?: string;
-  onSelect?: (countryCode: string) => void;
-  onClear?: () => void;
+  currentSerieId: number;
+  genres: Genre[];
+  className?: string;
 }
 
-export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
+export function RelatedSeries({ currentSerieId, genres, className }: IProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  const { data: countries, isLoading } = useCountries();
+  const { data: relatedSeriesData, isLoading } = useSeries({
+    genres: genres.map((g) => g.id),
+    pageSize: 20,
+    pageIndex: 1,
+  });
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -62,41 +69,36 @@ export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
     setIsDragging(false);
   }, []);
 
-  const handleCountryClick = (countryCode: string) => {
-    if (isDragging) return;
-    onSelect?.(countryCode);
-  };
+  const relatedSeries =
+    relatedSeriesData?.data?.filter(
+      (serie: Serie) => serie.id !== currentSerieId
+    ) || [];
 
   if (isLoading) {
     return (
-      <div className="flex gap-2 overflow-x-auto whitespace-nowrap py-1 scrollbar-hide">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-8 w-20 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse flex-shrink-0"
-          />
-        ))}
+      <div className={cn("space-y-2 mt-4", className)}>
+        <h2 className="m-0 font-semibold">Related Series</h2>
+        <div className="flex gap-4 overflow-hidden">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="min-w-[200px]">
+              <SerieCardSkeleton />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
-  return (
-    <div className="relative">
-      <Button
-        variant={!selected ? "outline" : "secondary"}
-        size="sm"
-        className={cn(
-          "absolute left-0 top-1 z-10 transition-all flex-shrink-0 border border-border shadow-sm",
-          "hover:bg-background"
-        )}
-        onClick={onClear}
-      >
-        All Countries
-      </Button>
+  if (!relatedSeries || relatedSeries.length === 0) {
+    return null;
+  }
 
+  return (
+    <div className={cn("space-y-2 mt-4", className)}>
+      <h2 className="m-0 font-semibold">Related Series</h2>
       <div
         ref={containerRef}
-        className="flex gap-2 pl-[7.4rem] overflow-x-auto whitespace-nowrap py-1 scrollbar-hide select-none"
+        className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -105,16 +107,10 @@ export function CountryFilter({ selected = "", onSelect, onClear }: IProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {countries?.map((country) => (
-          <Button
-            key={country.iso_3166_1}
-            variant={selected === country.iso_3166_1 ? "outline" : "secondary"}
-            size="sm"
-            className={cn("border border-border hover:bg-background")}
-            onClick={() => handleCountryClick(country.iso_3166_1)}
-          >
-            {country.english_name}
-          </Button>
+        {relatedSeries.map((serie: Serie) => (
+          <div key={serie.id} className="w-[180px]">
+            <SerieCard serie={serie} />
+          </div>
         ))}
       </div>
     </div>

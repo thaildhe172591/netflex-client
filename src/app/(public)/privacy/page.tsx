@@ -4,15 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertCircleIcon } from "lucide-react";
 
 export default function PrivacyPage() {
   return (
-    <div className="p-2">
+    <div>
       <div className="space-y-6">
-        <div className="mb-4">
-          <h1 className="text-xl font-bold tracking-tight">Privacy Policy</h1>
-          <p className="text-muted-foreground">
+        <div className="mb-2">
+          <h1 className="text-lg font-bold tracking-tight">Privacy Policy</h1>
+          <p className="text-muted-foreground text-sm">
             We are committed to protecting your privacy and personal information
             when using the Netflex streaming platform.
           </p>
@@ -21,22 +23,18 @@ export default function PrivacyPage() {
           </p>
         </div>
 
-        <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/10 dark:border-orange-800 gap-2 m-0">
-          <CardHeader>
-            <CardTitle className="text-orange-800 dark:text-orange-200 flex items-center gap-2">
-              <span className="text-xl">⚠️</span>
-              Important Notice
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-orange-700 dark:text-orange-300">
+        <Alert variant="destructive" className="mb-0">
+          <AlertCircleIcon />
+          <AlertTitle>Important notice</AlertTitle>
+          <AlertDescription>
             <p>
               This website is developed{" "}
               <strong>solely for educational and research purposes</strong>. We
               do not encourage copyright infringement and recommend users
               utilize legal streaming services.
             </p>
-          </CardContent>
-        </Card>
+          </AlertDescription>
+        </Alert>
 
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">

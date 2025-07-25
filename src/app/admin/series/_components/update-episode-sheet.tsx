@@ -106,7 +106,7 @@ export function UpdateEpisodeSheet({
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: [QueryKeys.SERIES, episodeData?.serieId],
+            queryKey: [QueryKeys.SERIES, episodeData?.seriesId],
           });
           setIsOpen(false);
         },

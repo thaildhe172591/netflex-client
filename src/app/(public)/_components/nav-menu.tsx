@@ -10,16 +10,24 @@ import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Roles } from "@/constants";
+import { useAuth } from "@/hooks/use-auth";
 
 const navigationItems = [
   { href: "/", label: "Home" },
   { href: "/movies", label: "Movies" },
   { href: "/series", label: "TV Series" },
+  {
+    href: "/admin",
+    label: "Dashboard",
+    roles: [Roles.ADMIN, Roles.MODERATOR],
+  },
   { href: "/privacy", label: "Privacy" },
 ];
 
 export const NavMenu = (props: NavigationMenuProps) => {
   const pathname = usePathname();
+  const { data: user } = useAuth();
 
   return (
     <NavigationMenu {...props}>
@@ -28,6 +36,13 @@ export const NavMenu = (props: NavigationMenuProps) => {
           const isActive =
             pathname === item.href ||
             (item.href !== "/" && pathname.startsWith(item.href));
+
+          const hasAccess =
+            item.roles &&
+            user &&
+            user.roles.some((role) => item.roles.includes(role));
+
+          if (item.roles && !hasAccess) return null;
 
           return (
             <NavigationMenuItem key={item.href}>

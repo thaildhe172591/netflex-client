@@ -75,8 +75,8 @@ export function RelatedMovies({ currentMovieId, genres, className }: IProps) {
 
   if (isLoading) {
     return (
-      <div className={cn("space-y-4", className)}>
-        <h2 className="text-xl font-semibold">Related Movies</h2>
+      <div className={cn("space-y-2 mt-4", className)}>
+        <h2 className="m-0 font-semibold">Related Movies</h2>
         <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="min-w-[200px]">
@@ -93,8 +93,8 @@ export function RelatedMovies({ currentMovieId, genres, className }: IProps) {
   }
 
   return (
-    <div className={cn("space-y-2", className)}>
-      <h2 className="text-sm font-semibold m-0">Related Movies</h2>
+    <div className={cn("space-y-2  mt-4", className)}>
+      <h2 className="m-0 font-semibold">Related Movies</h2>
       <div
         ref={containerRef}
         className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2"
@@ -107,7 +107,7 @@ export function RelatedMovies({ currentMovieId, genres, className }: IProps) {
         onTouchEnd={handleTouchEnd}
       >
         {relatedMovies.map((movie: Movie) => (
-          <div key={movie.id} className="min-w-[160px]">
+          <div key={movie.id} className="w-[180px]">
             <MovieCard movie={movie} />
           </div>
         ))}

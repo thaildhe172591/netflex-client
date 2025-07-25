@@ -106,8 +106,7 @@ export function GenreFilter({ selected = [], onSelect, onClear }: IProps) {
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="h-8 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse flex-shrink-0"
-            style={{ width: `${60 + Math.random() * 40}px` }}
+            className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse flex-shrink-0"
           />
         ))}
       </div>

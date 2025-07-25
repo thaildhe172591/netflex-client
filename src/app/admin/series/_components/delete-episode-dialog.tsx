@@ -29,7 +29,7 @@ export function DeleteEpisodeDialog({
     deleteEpisode(episode.id, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [QueryKeys.SERIES, episode.serieId],
+          queryKey: [QueryKeys.SERIES, episode.seriesId],
         });
         setIsOpen(false);
       },

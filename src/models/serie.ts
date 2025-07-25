@@ -11,6 +11,8 @@ export interface Serie {
   countryIso?: string;
   firstAirDate?: Date;
   lastAirDate?: Date;
+  averageRating?: number;
+  totalReviews?: number;
 }
 
 export interface SerieDetail extends Serie {

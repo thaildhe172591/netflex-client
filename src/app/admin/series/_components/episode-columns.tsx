@@ -108,7 +108,7 @@ function EpisodeActionsCell({ row }: EpisodeActionsCellProps) {
           airDate: new Date(episode.airDate),
           runtime:
             typeof episode.runtime === "number" ? episode.runtime : undefined,
-          serieId: episode.serieId,
+          seriesId: episode.serieId,
         }}
         isOpen={isDeleteDialogOpen}
         setIsOpen={setIsDeleteDialogOpen}
