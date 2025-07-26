@@ -7,17 +7,75 @@ import { Star, Calendar, Play } from "lucide-react";
 import Link from "next/link";
 import { MovieCard } from "./movies/_components/movie-card";
 import { SerieCard } from "./series/_components/serie-card";
+import { MovieCardSkeleton } from "./movies/_components/movie-card-skeleton";
+import { SerieCardSkeleton } from "./series/_components/serie-card-skeleton";
+import { useCallback, useRef, useState } from "react";
 
 export default function HomePage() {
+  const moviesContainerRef = useRef<HTMLDivElement>(null);
+  const seriesContainerRef = useRef<HTMLDivElement>(null);
+  const [moviesIsDragging, setMoviesIsDragging] = useState(false);
+  const [seriesIsDragging, setSeriesIsDragging] = useState(false);
+  const [moviesStartX, setMoviesStartX] = useState(0);
+  const [seriesStartX, setSeriesStartX] = useState(0);
+  const [moviesScrollLeft, setMoviesScrollLeft] = useState(0);
+  const [seriesScrollLeft, setSeriesScrollLeft] = useState(0);
+
   const { data: moviesData, isLoading: moviesLoading } = useMovies({
     sortby: "averageRating.desc",
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const { data: seriesData, isLoading: seriesLoading } = useSeries({
     sortBy: "averageRating.desc",
-    pageSize: 5,
+    pageSize: 10,
   });
+
+  // Movies scroll handlers
+  const handleMoviesMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!moviesContainerRef.current) return;
+    setMoviesIsDragging(true);
+    setMoviesStartX(e.pageX - moviesContainerRef.current.offsetLeft);
+    setMoviesScrollLeft(moviesContainerRef.current.scrollLeft);
+  }, []);
+
+  const handleMoviesMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!moviesIsDragging || !moviesContainerRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - moviesContainerRef.current.offsetLeft;
+      const walk = (x - moviesStartX) * 2;
+      moviesContainerRef.current.scrollLeft = moviesScrollLeft - walk;
+    },
+    [moviesIsDragging, moviesStartX, moviesScrollLeft]
+  );
+
+  const handleMoviesMouseUp = useCallback(() => {
+    setMoviesIsDragging(false);
+  }, []);
+
+  // Series scroll handlers
+  const handleSeriesMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!seriesContainerRef.current) return;
+    setSeriesIsDragging(true);
+    setSeriesStartX(e.pageX - seriesContainerRef.current.offsetLeft);
+    setSeriesScrollLeft(seriesContainerRef.current.scrollLeft);
+  }, []);
+
+  const handleSeriesMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!seriesIsDragging || !seriesContainerRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - seriesContainerRef.current.offsetLeft;
+      const walk = (x - seriesStartX) * 2;
+      seriesContainerRef.current.scrollLeft = seriesScrollLeft - walk;
+    },
+    [seriesIsDragging, seriesStartX, seriesScrollLeft]
+  );
+
+  const handleSeriesMouseUp = useCallback(() => {
+    setSeriesIsDragging(false);
+  }, []);
 
   const movies = moviesData?.data || [];
   const series = seriesData?.data || [];
@@ -65,10 +123,10 @@ export default function HomePage() {
       <section className="py-10">
         <div className="container mx-auto px-4">
           <div className="mb-16">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-2">
               <div>
                 <h2 className="md:text-lg font-bold text-gray-900 mb-2">
-                  Top 5 Must-Watch Movies
+                  Top Must-Watch Movies
                 </h2>
                 <p className="text-gray-600 text-sm">
                   The highest rated movies
@@ -83,29 +141,40 @@ export default function HomePage() {
             </div>
 
             {moviesLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-gray-200 aspect-[2/3] rounded-lg mb-4"></div>
-                    <div className="bg-gray-200 h-4 rounded mb-2"></div>
-                    <div className="bg-gray-200 h-3 rounded w-3/4"></div>
+              <div className="flex gap-4 overflow-hidden">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="min-w-[180px]">
+                    <MovieCardSkeleton />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              <div
+                ref={moviesContainerRef}
+                className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2 touch-pan-x"
+                style={{ touchAction: "pan-x" }}
+                onMouseDown={handleMoviesMouseDown}
+                onMouseMove={handleMoviesMouseMove}
+                onMouseUp={handleMoviesMouseUp}
+                onMouseLeave={handleMoviesMouseUp}
+              >
                 {movies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
+                  <div
+                    key={movie.id}
+                    className="min-w-[180px] w-[180px] flex-shrink-0"
+                  >
+                    <MovieCard movie={movie} />
+                  </div>
                 ))}
               </div>
             )}
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-2">
               <div>
                 <h2 className="md:text-lg font-bold text-gray-900 mb-2">
-                  Top 5 Must-Watch Series
+                  Top Must-Watch Series
                 </h2>
                 <p className="text-gray-600 text-sm">The most loved series</p>
               </div>
@@ -118,19 +187,30 @@ export default function HomePage() {
             </div>
 
             {seriesLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-gray-200 aspect-[2/3] rounded-lg mb-4"></div>
-                    <div className="bg-gray-200 h-4 rounded mb-2"></div>
-                    <div className="bg-gray-200 h-3 rounded w-3/4"></div>
+              <div className="flex gap-4 overflow-hidden">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="min-w-[180px]">
+                    <SerieCardSkeleton />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              <div
+                ref={seriesContainerRef}
+                className="flex gap-4 overflow-x-auto scrollbar-hide select-none py-2 touch-pan-x"
+                style={{ touchAction: "pan-x" }}
+                onMouseDown={handleSeriesMouseDown}
+                onMouseMove={handleSeriesMouseMove}
+                onMouseUp={handleSeriesMouseUp}
+                onMouseLeave={handleSeriesMouseUp}
+              >
                 {series.map((serie) => (
-                  <SerieCard key={serie.id} serie={serie} />
+                  <div
+                    key={serie.id}
+                    className="min-w-[180px] w-[180px] flex-shrink-0"
+                  >
+                    <SerieCard serie={serie} />
+                  </div>
                 ))}
               </div>
             )}
