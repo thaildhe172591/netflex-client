@@ -19,8 +19,7 @@ import {
 import axiosClient from "./axios-client";
 
 export const userApi = {
-  create: (payload: CreateUserPayload) =>
-    axiosClient.post<{ id: number }>("/users", payload),
+  create: (payload: CreateUserPayload) => axiosClient.post("/users", payload),
 
   getAll: (params?: GetUsersParams) =>
     axiosClient.get<PaginatedResult<UserDto>>("/users", { params }),
