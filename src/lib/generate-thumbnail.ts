@@ -1,9 +1,12 @@
 import Hls from "hls.js";
+import { toPlayableMediaUrl } from "@/lib/media-url";
 
 export async function generateThumbnailFromHls(
   url: string
 ): Promise<string | null> {
   return new Promise((resolve) => {
+    const isHls = url.toLowerCase().includes(".m3u8");
+    const resolvedUrl = isHls ? url : toPlayableMediaUrl(url);
     const video = document.createElement("video");
     video.crossOrigin = "anonymous";
     video.muted = true;
@@ -21,9 +24,9 @@ export async function generateThumbnailFromHls(
       resolve(thumbnail);
     };
 
-    if (Hls.isSupported()) {
+    if (isHls && Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(url);
+      hls.loadSource(resolvedUrl);
       hls.attachMedia(video);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -39,14 +42,18 @@ export async function generateThumbnailFromHls(
         console.error("HLS error", data);
         resolve(null);
       });
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = url;
+    } else if (isHls && video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = resolvedUrl;
       video.addEventListener("loadedmetadata", () => {
         video.currentTime = 5;
       });
       video.onseeked = captureThumbnail;
     } else {
-      resolve(null);
+      video.src = resolvedUrl;
+      video.addEventListener("loadedmetadata", () => {
+        video.currentTime = Math.min(5, Math.max(0, video.duration / 4));
+      });
+      video.onseeked = captureThumbnail;
     }
   });
 }

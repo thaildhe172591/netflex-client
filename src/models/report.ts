@@ -1,15 +1,10 @@
 export interface ReportDto {
-  id: number;
+  id: string;
   reason: string;
   description?: string;
   process: string;
-  createdAt?: Date;
+  createdAt?: string;
   createdBy?: string;
-}
-
-export interface UpdateReportPayload {
-  reason?: string;
-  description?: string;
 }
 
 export interface UpdateReportPayload {

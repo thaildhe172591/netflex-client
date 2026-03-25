@@ -5,7 +5,7 @@ import { QueryKeys } from "@/constants";
 type MovieDetailQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
 export const useMovieDetail = (
-  movieId: number,
+  movieId: string,
   options: MovieDetailQueryOptions = {}
 ) =>
   useQuery({

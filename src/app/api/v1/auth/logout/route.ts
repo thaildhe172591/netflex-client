@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { buildApiUrl } from "../_utils";
 
 export async function POST(req: Request) {
   try {
@@ -8,7 +9,7 @@ export async function POST(req: Request) {
 
     if (accessToken) {
       const res = await fetch(
-        `${process.env.BASE_API_URL}/api/v1/auth/logout`,
+        buildApiUrl("/api/v1/auth/logout"),
         {
           method: "POST",
           headers: {

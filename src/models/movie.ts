@@ -38,7 +38,7 @@ export interface MovieDetail extends Movie {
 }
 
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
   overview?: string;
   posterPath?: string;
@@ -53,9 +53,9 @@ export interface Movie {
 
 export interface MovieFilter extends PaginationRequest {
   search?: string;
-  genres?: number[];
-  keywords?: number[];
-  actors?: number[];
+  genres?: string[];
+  keywords?: string[];
+  actors?: string[];
   country?: string;
   year?: string;
   sortby?: string;

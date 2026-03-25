@@ -9,6 +9,12 @@ import {
 } from "@/models";
 import axiosClient from "./axios-client";
 
+type ApiEnvelope<T> = {
+  success: boolean;
+  data: T;
+  error: unknown;
+};
+
 export const authApi = {
   signin: (payload: LoginPayload) => axiosClient.post("/auth/signin", payload),
   logout: (payload: LogoutPayload) => axiosClient.post("/auth/logout", payload),
@@ -26,7 +32,18 @@ export const authApi = {
   verifyOTP: (payload: VerifyOTPPayload) =>
     axiosClient.get(`/auth/otp?email=${payload.email}&otp=${payload.otp}`),
   getInfo: async () => {
-    const response = await axiosClient.get<UserInfo>("/auth/me");
-    return response.data;
+    const response = await axiosClient.get<UserInfo | ApiEnvelope<UserInfo>>(
+      "/auth/me"
+    );
+    const body = response.data as UserInfo | ApiEnvelope<UserInfo>;
+    if (
+      body &&
+      typeof body === "object" &&
+      "success" in body &&
+      "data" in body
+    ) {
+      return (body as ApiEnvelope<UserInfo>).data;
+    }
+    return body as UserInfo;
   },
 };

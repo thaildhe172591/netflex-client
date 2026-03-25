@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
+import { buildApiUrl } from "../_utils";
 
 export async function POST(req: Request) {
   try {
     const { email, password, deviceId } = await req.json();
-    const res = await fetch(`${process.env.BASE_API_URL}/api/v1/auth/signin`, {
+    const res = await fetch(buildApiUrl("/api/v1/auth/signin"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,7 +14,16 @@ export async function POST(req: Request) {
 
     if (!res.ok) return res;
 
-    const { accessToken, refreshToken } = await res.json();
+    const payload = await res.json();
+    const accessToken = payload?.data?.accessToken ?? payload?.accessToken;
+    const refreshToken = payload?.data?.refreshToken ?? payload?.refreshToken;
+
+    if (!accessToken || !refreshToken) {
+      return Response.json(
+        { message: "Invalid signin response payload" },
+        { status: 502 }
+      );
+    }
 
     const cookie = await cookies();
     cookie.set("access_token", accessToken, {

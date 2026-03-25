@@ -4,7 +4,7 @@ import { EpisodeDetail } from "@/models/episode";
 import { QueryKeys } from "@/constants";
 
 export function useEpisodeDetail(
-  episodeId: number,
+  episodeId: string,
   options: Omit<UseQueryOptions<EpisodeDetail>, "queryKey" | "queryFn"> = {}
 ) {
   return useQuery({

@@ -78,8 +78,8 @@ export function StarRating({
               className={cn(
                 sizeClasses[size],
                 interactive
-                  ? "text-gray-300 hover:text-gray-200"
-                  : "text-gray-300"
+                  ? "text-white/30 hover:text-white/60"
+                  : "text-white/30"
               )}
             />
 
@@ -91,8 +91,8 @@ export function StarRating({
                 className={cn(
                   sizeClasses[size],
                   interactive && (isHovered || isSelected)
-                    ? "text-yellow-300 fill-yellow-300"
-                    : "text-yellow-400 fill-yellow-400"
+                    ? "text-amber-300 fill-amber-300"
+                    : "text-amber-400 fill-amber-400"
                 )}
               />
             </div>

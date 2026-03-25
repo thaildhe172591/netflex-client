@@ -3,7 +3,7 @@ import { Keyword } from "./keyword";
 import { PaginationRequest } from "./pagination";
 
 export interface Serie {
-  id: number;
+  id: string;
   name: string;
   overview?: string;
   posterPath?: string;
@@ -28,8 +28,8 @@ export interface CreateSeriePayload {
   countryIso?: string;
   firstAirDate?: Date;
   lastAirDate?: Date;
-  keywords?: number[];
-  genres?: number[];
+  keywords?: string[];
+  genres?: string[];
 }
 
 export interface UpdateSeriePayload {
@@ -40,14 +40,14 @@ export interface UpdateSeriePayload {
   countryIso?: string;
   firstAirDate?: Date;
   lastAirDate?: Date;
-  keywords?: number[];
-  genres?: number[];
+  keywords?: string[];
+  genres?: string[];
 }
 
 export interface SerieFilter extends PaginationRequest {
   search?: string;
-  genres?: number[];
-  keywords?: number[];
+  genres?: string[];
+  keywords?: string[];
   sortBy?: string;
   country?: string;
   year?: string;

@@ -44,10 +44,10 @@ export interface GetFollowParams {
 }
 
 export interface FollowDto {
+  isFollow: boolean;
   targetId: string;
   targetType: string;
-  userId: string;
-  createdAt: Date;
+  followedAt?: string;
 }
 
 export interface ReportPayload {
@@ -69,11 +69,7 @@ export interface GetReviewParams {
 export interface ReviewDto {
   targetId: string;
   targetType: string;
-  userId: string;
   rating: number;
-  comment?: string;
-  likeCount: number;
-  createdAt: Date;
 }
 
 export interface GetUsersParams {

@@ -1,5 +1,5 @@
 export type Actor = {
-  id: number;
+  id: string | number;
   name: string;
   gender: boolean;
   birthDate?: string;

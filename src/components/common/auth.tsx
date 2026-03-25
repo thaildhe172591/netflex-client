@@ -37,11 +37,19 @@ export const Auth = ({ children, roles, permissions }: AuthProps) => {
       redirect(`/confirm-email?${query.toString()}`);
     }
     if (!info?.email) return;
+    const normalizedRoles = (info?.roles || []).map((role) =>
+      role.toUpperCase()
+    );
+    const normalizedPermissions = (info?.permission || []).map((permission) =>
+      permission.toUpperCase()
+    );
     const hasRole = roles?.length
-      ? roles.some((role) => info?.roles?.includes(role))
+      ? roles.some((role) => normalizedRoles.includes(role.toUpperCase()))
       : true;
     const hasPermission = permissions?.length
-      ? permissions.some((permission) => info?.permission?.includes(permission))
+      ? permissions.some((permission) =>
+          normalizedPermissions.includes(permission.toUpperCase())
+        )
       : true;
     if (!hasRole || !hasPermission) {
       forbidden();

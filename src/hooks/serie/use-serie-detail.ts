@@ -5,7 +5,7 @@ import { QueryKeys } from "@/constants";
 type SerieDetailQueryOptions = Omit<unknown, "queryKey" | "queryFn">;
 
 export const useSerieDetail = (
-  serieId: number,
+  serieId: string,
   options: SerieDetailQueryOptions = {}
 ) =>
   useQuery({

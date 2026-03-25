@@ -14,6 +14,12 @@ export async function proxyRouteHandler(
     headers.set("Authorization", `Bearer ${bearerToken}`);
   }
 
+  // Forward cookies (crucial for Refresh Token)
+  const cookieHeader = request.headers.get("cookie");
+  if (cookieHeader) {
+    headers.set("cookie", cookieHeader);
+  }
+
   return fetch(requestUrl, {
     headers,
     method: request.method,

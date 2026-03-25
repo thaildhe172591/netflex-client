@@ -2,8 +2,8 @@ import { PaginationRequest } from "@/models/pagination";
 import { Actor } from "./actor";
 
 export interface Episode {
-  id: number;
-  seriesId: number;
+  id: string;
+  seriesId: string;
   name: string;
   overview?: string;
   airDate?: Date;
@@ -27,8 +27,8 @@ export interface CreateEpisodePayload {
   video?: File;
   runtime?: number;
   airDate?: Date;
-  seriesId: number;
-  actors?: number[];
+  seriesId: string;
+  actors?: string[];
 }
 
 export interface UpdateEpisodePayload {
@@ -38,11 +38,11 @@ export interface UpdateEpisodePayload {
   video?: File;
   runtime?: number;
   airDate?: Date;
-  actors?: number[];
+  actors?: string[];
 }
 
 export interface EpisodeFilter extends PaginationRequest {
-  seriesId?: number;
+  seriesId?: string;
   search?: string;
   sortBy?: string;
 }

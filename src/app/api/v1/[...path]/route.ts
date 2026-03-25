@@ -6,12 +6,33 @@ async function proxyRequest(req: Request) {
   const accessToken = cookie.get("access_token")?.value;
 
   const url = new URL(req.url);
-  const target = `${process.env.BASE_API_URL}${url.pathname}${url.search}`;
+  const rawBaseUrl = process.env.BASE_API_URL ?? "";
+  if (!rawBaseUrl) {
+    return new Response("BASE_API_URL is not configured", { status: 500 });
+  }
 
-  return proxyRouteHandler(req, {
-    requestUrl: target,
-    bearerToken: accessToken,
-  });
+  const baseUrl = rawBaseUrl.replace(/\/+$/, "");
+  const normalizedPath =
+    baseUrl.endsWith("/api/v1") && url.pathname.startsWith("/api/v1/")
+      ? url.pathname.substring("/api/v1".length)
+      : url.pathname;
+
+  const target = `${baseUrl}${normalizedPath}${url.search}`;
+
+  console.log(`[Proxy] Routing to: ${target}`);
+  console.log(`[Proxy] Access Token present: ${!!accessToken}`);
+
+  try {
+    const response = await proxyRouteHandler(req, {
+      requestUrl: target,
+      bearerToken: accessToken,
+    });
+    console.log(`[Proxy] Response Status: ${response.status}`);
+    return response;
+  } catch (err) {
+    console.error("[Proxy] Connection Error:", err);
+    return new Response("Proxy Error", { status: 500 });
+  }
 }
 
 export const GET = proxyRequest;

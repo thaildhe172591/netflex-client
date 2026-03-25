@@ -15,10 +15,17 @@ export const useGenresInfinite = (
     queryFn: ({ pageParam = 1 }) =>
       genreApi.getAll({ ...request, pageIndex: pageParam }),
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data.length === 0) return undefined;
-      if (lastPage.data.length < (request.pageSize || 10)) return undefined;
+      const pageSize = request.pageSize || 10;
+      const currentPage = lastPage?.pageIndex ?? allPages.length;
+      const total = lastPage?.total ?? 0;
+      const totalPages = Math.ceil(total / pageSize);
 
-      return allPages.length + 1;
+      if (!Array.isArray(lastPage?.data)) return undefined;
+      if (lastPage.data.length === 0) return undefined;
+      if (totalPages > 0 && currentPage >= totalPages) return undefined;
+      if (lastPage.data.length < pageSize) return undefined;
+
+      return currentPage + 1;
     },
     initialPageParam: 1,
   });

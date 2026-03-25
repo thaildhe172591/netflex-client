@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { buildApiUrl } from "../_utils";
 
 export async function POST(
   req: Request,
@@ -8,7 +9,7 @@ export async function POST(
     const { social: provider } = await params;
     const { code, redirectUrl, deviceId } = await req.json();
     const res = await fetch(
-      `${process.env.BASE_API_URL}/api/v1/auth/${provider}/callback`,
+      buildApiUrl(`/api/v1/auth/${provider}/callback`),
       {
         method: "POST",
         headers: {
@@ -20,7 +21,16 @@ export async function POST(
 
     if (!res.ok) return res;
 
-    const { accessToken, refreshToken } = await res.json();
+    const payload = await res.json();
+    const accessToken = payload?.data?.accessToken ?? payload?.accessToken;
+    const refreshToken = payload?.data?.refreshToken ?? payload?.refreshToken;
+
+    if (!accessToken || !refreshToken) {
+      return Response.json(
+        { message: "Invalid social callback response payload" },
+        { status: 502 }
+      );
+    }
 
     const cookie = await cookies();
     cookie.set("access_token", accessToken, {

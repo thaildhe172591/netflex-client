@@ -24,15 +24,15 @@ export const useFollow = () => {
       ]);
 
       const optimisticFollowData: FollowDto = {
+        isFollow: true,
         targetId: variables.targetId,
         targetType: variables.targetType,
-        userId: "",
-        createdAt: new Date(),
+        followedAt: new Date().toISOString(),
       };
 
       queryClient.setQueryData(
         [QueryKeys.FOLLOW_STATUS, variables.targetId, variables.targetType],
-        { data: optimisticFollowData }
+        optimisticFollowData
       );
 
       return { previousStatus };
@@ -77,10 +77,15 @@ export const useUnfollow = () => {
         variables.targetType,
       ]);
 
-      // Optimistically update to "not following" (null/undefined)
+      const optimisticUnfollowData: FollowDto = {
+        isFollow: false,
+        targetId: variables.targetId,
+        targetType: variables.targetType,
+      };
+
       queryClient.setQueryData(
         [QueryKeys.FOLLOW_STATUS, variables.targetId, variables.targetType],
-        undefined
+        optimisticUnfollowData
       );
 
       // Return a context object with the snapshotted value

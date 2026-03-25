@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { buildApiUrl } from "../_utils";
 
 export async function POST(req: Request) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
 
     const { deviceId } = await req.json();
 
-    const res = await fetch(`${process.env.BASE_API_URL}/api/v1/auth/refresh`, {
+    const res = await fetch(buildApiUrl("/api/v1/auth/refresh"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken, deviceId }),
@@ -18,7 +19,16 @@ export async function POST(req: Request) {
 
     if (!res.ok) return res;
 
-    const { accessToken, refreshToken: newRefresh } = await res.json();
+    const payload = await res.json();
+    const accessToken = payload?.data?.accessToken ?? payload?.accessToken;
+    const newRefresh = payload?.data?.refreshToken ?? payload?.refreshToken;
+
+    if (!accessToken || !newRefresh) {
+      return Response.json(
+        { message: "Invalid refresh response payload" },
+        { status: 502 }
+      );
+    }
 
     cookie.set("access_token", accessToken, {
       httpOnly: true,
